@@ -1,0 +1,29 @@
+// app global css in SCSS form
+.custom-card {
+  position: relative;
+  &:before {
+    content: var(--icon);
+    position: absolute;
+    font-family: "Material Design Icons", sans-serif;
+    font-size: 10rem;
+    opacity: 0.2;
+    color: white;
+    bottom: 18px;
+    right: -2px;
+  }
+}
+
+.category-card {
+  position: relative;
+  &:before {
+    content: var(--icon);
+    position: absolute;
+    font-family: "Material Design Icons", sans-serif;
+    font-size: 10rem;
+    opacity: 0.2;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
