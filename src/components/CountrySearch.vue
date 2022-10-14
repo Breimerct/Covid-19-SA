@@ -26,14 +26,15 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { ICountriesOptions, ICountrySelected } from '../models/models'
 import Util from 'src/helpers/Util'
-
-export default {
+import { mapActions } from 'vuex'
+export default defineComponent({
   name: 'CountrySearch',
 
   data: (): {
-    countrySelected: ICountrySelected | null
+    countrySelected: ICountrySelected
     countriesItems: ICountriesOptions[]
   } => ({
     countrySelected: {
@@ -45,15 +46,20 @@ export default {
 
   watch: {
     countrySelected (value: ICountrySelected) {
-      console.log(value)
+      this.fetchCountryData(value.value)
     }
   },
 
   methods: {
+    ...mapActions('covidModule', ['fetchCountryData'])
+  },
+
+  mounted () {
+    this.fetchCountryData(this.countrySelected.value)
   }
-}
+})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

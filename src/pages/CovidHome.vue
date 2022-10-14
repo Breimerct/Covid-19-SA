@@ -19,6 +19,9 @@
             :title="category.title"
             :icon="category.icon"
             :color="category.color"
+            :total="category.total"
+            :today-total="category.todayTotal"
+            :index="index"
           />
         </div>
       </div>
@@ -27,49 +30,55 @@
 </template>
 
 <script lang="ts">
-import CovidCard from 'components/CovidCard.vue'
-export default {
-  name: 'PageIndex',
+import { defineComponent } from 'vue'
+import { mapGetters } from 'vuex'
+
+export default defineComponent({
+  name: 'CovidHome',
 
   components: {
-    CovidCard,
+    CovidCard: () => import('components/CovidCard.vue'),
     TotalCasesCard: () => import('components/TotalCasesCard.vue'),
     CountrySearch: () => import('components/CountrySearch.vue')
   },
 
   computed: {
-    getCategories: () => ([
-      {
-        title: 'Fallecidos',
-        icon: 'F0B7F',
-        total: 0,
-        color: 'red',
-        today: 0
-      },
-      {
-        title: 'Activos',
-        icon: 'F0849',
-        total: 0,
-        color: 'blue-7',
-        today: 0
-      },
-      {
-        title: 'Recuperados',
-        icon: 'F08D0',
-        total: 0,
-        color: 'green',
-        today: 0
-      },
-      {
-        title: 'Pruebas',
-        icon: 'F0668',
-        total: 0,
-        color: 'amber-8',
-        today: 0
-      }
-    ])
+    ...mapGetters('covidModule', ['getCovidData']),
+
+    getCategories () {
+      return [
+        {
+          title: 'Fallecidos',
+          icon: 'F0B7F',
+          total: this.$store.getters['covidModule/getCovidData']?.deaths || 0,
+          color: 'red',
+          todayTotal: this.$store.getters['covidModule/getCovidData']?.todayDeaths || 0
+        },
+        {
+          title: 'Activos',
+          icon: 'F0849',
+          total: this.$store.getters['covidModule/getCovidData']?.active || 0,
+          color: 'blue-7',
+          todayTotal: 0
+        },
+        {
+          title: 'Recuperados',
+          icon: 'F08D0',
+          total: this.$store.getters['covidModule/getCovidData']?.recovered || 0,
+          color: 'green',
+          todayTotal: this.$store.getters['covidModule/getCovidData']?.todayRecovered || 0
+        },
+        {
+          title: 'Pruebas',
+          icon: 'F0668',
+          total: this.$store.getters['covidModule/getCovidData']?.tests || 0,
+          color: 'amber-8',
+          todayTotal: 0
+        }
+      ]
+    }
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .main-column {

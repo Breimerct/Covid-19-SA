@@ -13,12 +13,15 @@
     <q-card-section>
       <div class="column">
         <div class="row">
-          <div class="col-12 ">
+          <div class="col-12" style="height: 60px">
             <p class="q-ma-none text-h5 text-right text-weight-light">
-              {{ '1.000.000' }}
+              {{ total | formatNumber }}
             </p>
-            <p class="q-ma-none text-italic text-right">
-              {{ `+ ${420}` }}
+            <p
+              class="q-ma-none text-italic text-right"
+              v-if="index !== 1 && index !== 3"
+            >
+              + {{ todayTotal | formatNumber }}
             </p>
           </div>
         </div>
@@ -28,8 +31,13 @@
 </template>
 
 <script lang="ts">
-export default {
+import mixinFilters from 'src/mixins/filterMixin'
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'CovidCard',
+
+  mixins: [mixinFilters],
 
   props: {
     title: {
@@ -43,9 +51,21 @@ export default {
     icon: {
       type: String,
       require: true
+    },
+    total: {
+      type: Number,
+      require: true
+    },
+    todayTotal: {
+      type: Number,
+      require: true
+    },
+    index: {
+      type: Number,
+      require: true
     }
   }
-}
+})
 </script>
 
 <style scoped>

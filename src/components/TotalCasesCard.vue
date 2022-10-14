@@ -1,14 +1,16 @@
 <template>
-  <q-card class="custom-card text-white bg-cyan-6 q-pa-sm non-selectable" style="--icon: '\F13B6';">
+  <q-card class="custom-card text-white bg-cyan-6 q-pa-sm non-selectable" style="--icon: '\F13B6';" v-if="getCovidData">
     <q-item>
       <q-item-section avatar>
-        <q-avatar size="60px">
-          19
+        <q-avatar size="80px" square>
+          <q-img :src="getCovidData.flag" contain/>
         </q-avatar>
       </q-item-section>
       <q-item-section>
         <q-item-label>Ùltima actualizaciòn de los datos</q-item-label>
-        <q-item-label class="text-white" caption>12/10/2022 04:33 p.m</q-item-label>
+        <q-item-label class="text-white" caption>
+          {{ getCovidData.update | formatDate }}
+        </q-item-label>
       </q-item-section>
     </q-item>
     <q-separator/>
@@ -29,11 +31,11 @@
         <div class="col-8 text-right">
           <div class="text-h4">
             <p class="q-ma-none">
-              {{ '10.000.000' || '...' }}
+              {{ (getCovidData.cases || 0) | formatNumber }}
             </p>
           </div>
           <div class="text-italic">
-            {{ 'incremento+ 410' }}
+            {{ `incremento+ ${getCovidData.todayCases}` }}
           </div>
         </div>
       </div>
@@ -41,10 +43,22 @@
   </q-card>
 </template>
 
-<script>
-export default {
-  name: 'TotalCasesCard'
-}
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { ICovidData } from '../store/CovidModule/moduleInterfaces'
+import mixinFilters from '../mixins/filterMixin'
+
+export default defineComponent({
+  name: 'TotalCasesCard',
+
+  mixins: [mixinFilters],
+
+  computed: {
+    getCovidData (): ICovidData | any {
+      return this.$store.getters['covidModule/getCovidData']
+    }
+  }
+})
 </script>
 
 <style scoped lang="scss">

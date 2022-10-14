@@ -7,6 +7,14 @@ declare module 'vue/types/vue' {
   }
 }
 
+const httpClient = axios.create({
+  baseURL: process.env.API_URL
+})
+
+export {
+  httpClient
+}
+
 export default boot(({ Vue }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   Vue.prototype.$axios = axios
