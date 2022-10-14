@@ -12,7 +12,7 @@
       <div class="row q-mt-xs q-col-gutter-lg">
         <div
           class="col-6"
-          v-for="(category, index) in getCategories"
+          v-for="(category, index) in getCategories()"
           :key="index"
         >
           <covid-card
@@ -20,7 +20,7 @@
             :icon="category.icon"
             :color="category.color"
             :total="category.total"
-            :today-total="category.todayTotal"
+            :today-total="category.today"
             :index="index"
           />
         </div>
@@ -32,6 +32,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
+import { ICategory } from 'src/models/models'
 
 export default defineComponent({
   name: 'CovidHome',
@@ -43,37 +44,39 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters('covidModule', ['getCovidData']),
+    ...mapGetters('covidModule', ['getCovidData'])
+  },
 
-    getCategories () {
+  methods: {
+    getCategories (): ICategory[] {
       return [
         {
           title: 'Fallecidos',
           icon: 'F0B7F',
-          total: this.$store.getters['covidModule/getCovidData']?.deaths || 0,
+          total: this.getCovidData?.deaths || 0,
           color: 'red',
-          todayTotal: this.$store.getters['covidModule/getCovidData']?.todayDeaths || 0
+          today: this.getCovidData?.todayDeaths || 0
         },
         {
           title: 'Activos',
           icon: 'F0849',
-          total: this.$store.getters['covidModule/getCovidData']?.active || 0,
+          total: this.getCovidData?.active || 0,
           color: 'blue-7',
-          todayTotal: 0
+          today: 0
         },
         {
           title: 'Recuperados',
           icon: 'F08D0',
-          total: this.$store.getters['covidModule/getCovidData']?.recovered || 0,
+          total: this.getCovidData?.recovered || 0,
           color: 'green',
-          todayTotal: this.$store.getters['covidModule/getCovidData']?.todayRecovered || 0
+          today: this.getCovidData?.todayRecovered || 0
         },
         {
           title: 'Pruebas',
           icon: 'F0668',
-          total: this.$store.getters['covidModule/getCovidData']?.tests || 0,
+          total: this.getCovidData?.tests || 0,
           color: 'amber-8',
-          todayTotal: 0
+          today: 0
         }
       ]
     }

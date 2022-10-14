@@ -9,13 +9,11 @@ export interface StateInterface {
 export default store(function ({ Vue }) {
   Vue.use(Vuex)
 
-  const Store = new Vuex.Store<StateInterface>({
+  return new Vuex.Store<StateInterface>({
 
     modules: {
       covidModule
     },
     strict: !!process.env.DEBUGGING
   })
-
-  return Store
 })

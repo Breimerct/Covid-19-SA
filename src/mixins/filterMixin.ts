@@ -3,7 +3,7 @@ import moment from 'moment/moment'
 export default {
   filters: {
     formatDate (value: number | string) {
-      moment.locale('es')
+      moment.locale('es-us')
       return moment(value).format('LLLL')
     },
 

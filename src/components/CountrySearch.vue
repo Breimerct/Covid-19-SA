@@ -45,7 +45,7 @@ export default defineComponent({
   }),
 
   watch: {
-    countrySelected (value: ICountrySelected) {
+    countrySelected (value: ICountrySelected): void {
       this.fetchCountryData(value.value)
     }
   },

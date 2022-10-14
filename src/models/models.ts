@@ -8,3 +8,11 @@ export interface ICountriesOptions {
   value: string,
   img: string
 }
+
+export interface ICategory {
+  title: string,
+  icon: string,
+  total: number,
+  color: string,
+  today: number
+}
