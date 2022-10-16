@@ -1,6 +1,6 @@
 <template>
   <q-card
-    class="category-card text-white non-selectable"
+    class="category-card text-white non-selectable q-px-sm"
     :class="[`bg-${color}`]"
     :style="`--icon: '\\${icon}'`"
   >

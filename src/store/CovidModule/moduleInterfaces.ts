@@ -9,7 +9,13 @@ export interface ICovidData {
   tests?: number
   updated?: number
   flag?: string
+  country?: string,
   countryInfo?: {
     flag?: string
   }
+}
+
+export interface ITestChartSeries {
+  name: string,
+  data: number[]
 }

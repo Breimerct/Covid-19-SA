@@ -1,10 +1,14 @@
 import { MutationTree } from 'vuex'
 import { CovidStateInterface } from './state'
-import { ICovidData } from 'src/store/CovidModule/moduleInterfaces'
+import { ICovidData, ITestChartSeries } from 'src/store/CovidModule/moduleInterfaces'
 
 const mutation: MutationTree<CovidStateInterface> = {
-  setCovidData (state, payload: ICovidData) {
+  setCovidData (state, payload: ICovidData): void {
     state.covidData = payload
+  },
+
+  setTestChartData (state, payload: ITestChartSeries[]): void {
+    state.testChartData = payload
   }
 }
 

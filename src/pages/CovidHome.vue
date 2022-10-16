@@ -25,6 +25,9 @@
           />
         </div>
       </div>
+      <div class="q-mt-lg" v-if="!getCovidData?.country">
+        <test-chart/>
+      </div>
     </div>
   </q-page>
 </template>
@@ -33,11 +36,13 @@
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
 import { ICategory } from 'src/models/models'
+import TestChart from 'components/TestChart.vue'
 
 export default defineComponent({
   name: 'CovidHome',
 
   components: {
+    TestChart,
     CovidCard: () => import('components/CovidCard.vue'),
     TotalCasesCard: () => import('components/TotalCasesCard.vue'),
     CountrySearch: () => import('components/CountrySearch.vue')

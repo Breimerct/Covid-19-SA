@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-grey-3 text-black">
         <q-toolbar-title>
           Covid-19 SA
         </q-toolbar-title>
