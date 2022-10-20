@@ -96,18 +96,18 @@ export default class Util {
 
   static formatNumber = (value: number) => {
     try {
-      let nums: any[]
-      const simb = '.'
+      let nums: any[] = []
+      const dot = '.'
       let valueString = value.toString()
       valueString = valueString.replace(/\D/g, '')
       nums = valueString.split('')
       const long = nums.length - 1
-      const patron = 3
+      const pattern = 3
       let prox = 2
       let res = ''
       while (long > prox) {
-        nums.splice(long - prox, 0, simb)
-        prox += patron
+        nums.splice(long - prox, 0, dot)
+        prox += pattern
       }
       for (let i = 0; i <= nums.length - 1; i++) {
         res += nums[i]
