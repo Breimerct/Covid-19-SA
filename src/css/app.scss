@@ -15,11 +15,12 @@
 
 .category-card {
   position: relative;
+  overflow: hidden;
   &:before {
     content: var(--icon);
     position: absolute;
     font-family: "Material Design Icons", sans-serif;
-    font-size: 10rem;
+    font-size: 9rem;
     opacity: 0.2;
     color: white;
     top: 50%;

@@ -1,5 +1,9 @@
 <template>
-  <q-card class="custom-card text-white bg-cyan-6 q-pa-sm non-selectable" style="--icon: '\F13B6';" v-if="getCovidData">
+  <q-card
+    class="custom-card text-white bg-cyan-6 q-pa-sm non-selectable"
+    style="--icon: '\F13B6';"
+    v-if="getCovidData"
+  >
     <q-item>
       <q-item-section avatar>
         <q-avatar size="80px" square>
@@ -35,7 +39,7 @@
             </p>
           </div>
           <div class="text-italic">
-            {{ `incremento+ ${getCovidData.todayCases}` }}
+            incremento+ {{ getCovidData.todayCases | formatNumber }}
           </div>
         </div>
       </div>

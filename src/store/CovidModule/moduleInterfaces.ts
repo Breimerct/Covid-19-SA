@@ -7,6 +7,7 @@ export interface ICovidData {
   todayRecovered?: number
   active?: number
   tests?: number
+  vaccine?: number
   updated?: number
   flag?: string
   country?: string,
@@ -18,4 +19,13 @@ export interface ICovidData {
 export interface ITestChartSeries {
   name: string,
   data: number[]
+}
+
+export interface IHistoricalData {
+  country?: string,
+  timeline?: {
+    cases?: any,
+    deaths?: any,
+    recovered?: any
+  }
 }

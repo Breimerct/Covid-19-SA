@@ -29,7 +29,8 @@
 import { defineComponent } from 'vue'
 import { ICountriesOptions, ICountrySelected } from '../models/models'
 import Util from 'src/helpers/Util'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
+
 export default defineComponent({
   name: 'CountrySearch',
 
@@ -47,11 +48,13 @@ export default defineComponent({
   watch: {
     countrySelected (value: ICountrySelected): void {
       this.fetchCountryData(value.value)
+      this.setCountrySelected(value)
     }
   },
 
   methods: {
-    ...mapActions('covidModule', ['fetchCountryData'])
+    ...mapActions('covidModule', ['fetchCountryData']),
+    ...mapMutations('covidModule', ['setCountrySelected'])
   },
 
   mounted () {
