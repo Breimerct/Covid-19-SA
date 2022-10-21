@@ -6,7 +6,12 @@
           Covid-19 SA
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn
+          flat
+          dense
+          icon="mdi-info"
+        >
+        </q-btn>
       </q-toolbar>
     </q-header>
 

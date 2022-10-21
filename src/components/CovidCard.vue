@@ -4,26 +4,33 @@
     :class="[`bg-${color}`]"
     :style="`--icon: '\\${icon}'`"
   >
-    <q-card-section>
+    <q-card-section class="flex justify-between">
       <p class="q-ma-none text-h6 text-weight-medium">
         {{ title }}
       </p>
+      <q-btn
+        round
+        dense
+        icon="mdi-chart-box-outline"
+        v-if="
+          (index !== 3) &&
+          (getCountrySelected?.value !== 'south america')
+        "
+      />
     </q-card-section>
 
     <q-card-section>
-      <div class="column">
-        <div class="row">
-          <div class="col-12" style="height: 60px">
-            <p class="q-ma-none text-h5 text-right text-weight-light">
-              {{ total | formatNumber }}
-            </p>
-            <p
-              class="q-ma-none text-italic text-right"
-              v-if="index !== 1 && index !== 3"
-            >
-              + {{ todayTotal | formatNumber }}
-            </p>
-          </div>
+      <div class="row">
+        <div class="col-12" style="height: 60px">
+          <p class="q-ma-none text-h5 text-right text-weight-light">
+            {{ total | formatNumber }}
+          </p>
+          <p
+            class="q-ma-none text-italic text-right"
+            v-if="index !== 1 && index !== 3"
+          >
+            + {{ todayTotal | formatNumber }}
+          </p>
         </div>
       </div>
     </q-card-section>
@@ -33,6 +40,7 @@
 <script lang="ts">
 import mixinFilters from 'src/mixins/filterMixin'
 import { defineComponent } from 'vue'
+import { mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'CovidCard',
@@ -64,6 +72,10 @@ export default defineComponent({
       type: Number,
       require: true
     }
+  },
+
+  computed: {
+    ...mapGetters('covidModule', ['getCountrySelected'])
   }
 })
 </script>
