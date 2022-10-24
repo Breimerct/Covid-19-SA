@@ -117,4 +117,47 @@ export default class Util {
       return null
     }
   }
+
+  static getFormatChartData (object: any, property: string) {
+    const keysObject = Object.keys(object[property])
+    const historicalData: any[] = []
+    const category = this.getColorAndNameCategory(property)
+    keysObject.forEach(key => {
+      historicalData.push([new Date(key).getTime(), object[property][key]])
+    })
+    return [{
+      name: (category.name),
+      data: historicalData,
+      color: category.color
+    }]
+  }
+
+  static getColorAndNameCategory (category: string) {
+    switch (category) {
+      case 'cases': {
+        return {
+          name: 'Confirmados',
+          color: '#00bcd4'
+        }
+      }
+      case 'deaths': {
+        return {
+          name: 'Fallecidos',
+          color: '#f44336'
+        }
+      }
+      case 'recovered': {
+        return {
+          name: 'Recuperados',
+          color: '#4caf50'
+        }
+      }
+      default : {
+        return {
+          name: '',
+          color: ''
+        }
+      }
+    }
+  }
 }

@@ -1,16 +1,22 @@
 <template>
   <q-card
-    class="category-card bg-indigo-6 text-white non-selectable"
+    class="category-card bg-indigo-6 text-white non-selectable column justify-between"
     style="--icon: '\F0391';"
   >
     <q-card-section class="flex justify-between">
       <p class="q-ma-none text-h6 text-weight-medium">
         Vacunados
       </p>
+      <q-skeleton
+        size="35px"
+        v-if="!getCovidData.vaccine"
+      />
       <q-btn
-        round
+        v-else
+        flat
         dense
         icon="mdi-chart-box-outline"
+        @click="showDialogChart"
       />
     </q-card-section>
 
@@ -33,6 +39,7 @@
 <script>
 import mixinFilters from '../mixins/filterMixin'
 import { mapGetters } from 'vuex'
+import EventBus from '../helpers/EventBus'
 
 export default {
   name: 'VaccineCard',
@@ -41,6 +48,16 @@ export default {
 
   computed: {
     ...mapGetters('covidModule', ['getCovidData'])
+  },
+
+  methods: {
+    showDialogChart () {
+      EventBus.$emit('showDialogHistoricalChart', {
+        show: true,
+        title: 'Vacunados',
+        categoryCard: 'vaccines'
+      })
+    }
   }
 }
 </script>

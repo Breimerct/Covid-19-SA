@@ -1,11 +1,14 @@
 <template>
   <q-dialog
-    full-width
     v-model="showDialog"
     position="bottom"
+    :full-width="isMobile"
   >
-    <q-card>
-      <q-card-section class="row justify-end">
+    <q-card style="width: 700px; max-width: 80vw;">
+      <q-card-section class="row justify-between">
+        <p class="q-ma-none text-h5">
+          {{ title }}
+        </p>
         <q-btn
           flat
           round
@@ -15,7 +18,7 @@
         />
       </q-card-section>
       <q-card-section>
-        <p class="text-h5">{{ title }}</p>
+        <historical-chart :category="categoryCard"/>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -27,19 +30,31 @@ import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'DialogHistoricalChart',
+  components: {
+    HistoricalChart: () => import('components/HistoricalChart.vue')
+  },
 
   data: (): {
-    showDialog: boolean,
+    showDialog: boolean
     title: string
+    categoryCard: string
   } => ({
     showDialog: false,
-    title: ''
+    title: '',
+    categoryCard: ''
   }),
+
+  computed: {
+    isMobile (): boolean | any {
+      return this.$q.platform.is.mobile
+    }
+  },
 
   mounted () {
     EventBus.$on('showDialogHistoricalChart', (data: any): void => {
       this.showDialog = data.show
       this.title = data.title
+      this.categoryCard = data.categoryCard
     })
   }
 })

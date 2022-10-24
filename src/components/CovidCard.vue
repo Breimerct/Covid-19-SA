@@ -1,35 +1,34 @@
 <template>
   <q-card
-    class="category-card text-white non-selectable q-px-sm"
+    class="category-card text-white non-selectable q-px-sm flex column justify-between"
     :class="[`bg-${color}`]"
     :style="`--icon: '\\${icon}'`"
   >
-    <q-card-section class="flex justify-between">
+    <q-card-section class="flex justify-between flex-center q-pt-sm q-px-none">
       <p class="q-ma-none text-h6 text-weight-medium">
         {{ title }}
       </p>
       <q-btn
-        round
+        flat
         dense
         icon="mdi-chart-box-outline"
         v-if="
           (index !== 3) &&
+          (index !== 1) &&
           (getCountrySelected?.value !== 'south america')
         "
+        @click="showDialogChart"
       />
     </q-card-section>
 
     <q-card-section>
       <div class="row">
-        <div class="col-12" style="height: 60px">
+        <div class="col-12">
           <p class="q-ma-none text-h5 text-right text-weight-light">
             {{ total | formatNumber }}
           </p>
-          <p
-            class="q-ma-none text-italic text-right"
-            v-if="index !== 1 && index !== 3"
-          >
-            + {{ todayTotal | formatNumber }}
+          <p class="q-ma-none text-italic text-right">
+            + {{ today || 0 | formatNumber }}
           </p>
         </div>
       </div>
@@ -41,6 +40,7 @@
 import mixinFilters from 'src/mixins/filterMixin'
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
+import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'CovidCard',
@@ -48,6 +48,10 @@ export default defineComponent({
   mixins: [mixinFilters],
 
   props: {
+    category: {
+      type: String,
+      require: true
+    },
     title: {
       type: String,
       require: true
@@ -64,7 +68,7 @@ export default defineComponent({
       type: Number,
       require: true
     },
-    todayTotal: {
+    today: {
       type: Number,
       require: true
     },
@@ -76,6 +80,16 @@ export default defineComponent({
 
   computed: {
     ...mapGetters('covidModule', ['getCountrySelected'])
+  },
+
+  methods: {
+    showDialogChart () {
+      EventBus.$emit('showDialogHistoricalChart', {
+        show: true,
+        title: this.title,
+        categoryCard: this.category
+      })
+    }
   }
 })
 </script>

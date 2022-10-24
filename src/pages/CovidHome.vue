@@ -9,24 +9,20 @@
           <total-cases-card/>
         </div>
       </div>
-      <div class="row q-mt-xs q-col-gutter-lg">
+      <div class="row q-mt-xs q-col-gutter-sm">
         <div
           class="col-6"
           v-for="(category, index) in getCategories()"
           :key="index"
         >
           <covid-card
-            :title="category.title"
-            :icon="category.icon"
-            :color="category.color"
-            :total="category.total"
-            :today-total="category.today"
+            v-bind="category"
             :index="index"
           />
         </div>
       </div>
       <div
-        class="q-mt-lg"
+        class="q-mt-sm"
         v-if="
           getCovidData?.country &&
           getCountrySelected.value !== 'french guiana'
@@ -68,6 +64,7 @@ export default defineComponent({
     getCategories (): ICategory[] {
       return [
         {
+          category: 'deaths',
           title: 'Fallecidos',
           icon: 'F0B7F',
           total: this.getCovidData?.deaths || 0,
@@ -75,6 +72,7 @@ export default defineComponent({
           today: this.getCovidData?.todayDeaths || 0
         },
         {
+          category: 'active',
           title: 'Activos',
           icon: 'F0849',
           total: this.getCovidData?.active || 0,
@@ -82,6 +80,7 @@ export default defineComponent({
           today: 0
         },
         {
+          category: 'recovered',
           title: 'Recuperados',
           icon: 'F08D0',
           total: this.getCovidData?.recovered || 0,
@@ -89,6 +88,7 @@ export default defineComponent({
           today: this.getCovidData?.todayRecovered || 0
         },
         {
+          category: 'test',
           title: 'Pruebas',
           icon: 'F0668',
           total: this.getCovidData?.tests || 0,

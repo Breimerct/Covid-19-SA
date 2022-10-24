@@ -14,6 +14,10 @@ const mutation: MutationTree<CovidStateInterface> = {
 
   setCountrySelected (state, payload: ICountrySelected): void {
     state.countrySelected = payload
+  },
+
+  setHistoricalData (state, payload: any[]): void {
+    state.historicalData = payload
   }
 }
 
