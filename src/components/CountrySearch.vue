@@ -10,7 +10,7 @@
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <q-img :src="scope.opt.img" />
+            <q-img :src="scope.opt.img"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ scope.opt.label }}</q-item-label>
@@ -47,13 +47,19 @@ export default defineComponent({
 
   watch: {
     countrySelected (value: ICountrySelected): void {
-      this.fetchCountryData(value.value)
       this.setCountrySelected(value)
+      this.fetchCountryData(value.value)
+      this.fetchVaccineData(value.value)
+      this.fetchCategoriesHistoricalData(value.value)
     }
   },
 
   methods: {
-    ...mapActions('covidModule', ['fetchCountryData']),
+    ...mapActions('covidModule', [
+      'fetchCountryData',
+      'fetchVaccineData',
+      'fetchCategoriesHistoricalData'
+    ]),
     ...mapMutations('covidModule', ['setCountrySelected'])
   },
 

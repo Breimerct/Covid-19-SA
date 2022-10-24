@@ -4,24 +4,33 @@
     style="--icon: '\F13B6';"
     v-if="getCovidData"
   >
-    <q-item>
-      <q-item-section avatar>
-        <q-avatar size="80px" square>
-          <q-img :src="getCovidData.flag" contain/>
-        </q-avatar>
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>Ùltima actualizaciòn de los datos</q-item-label>
-        <q-item-label class="text-white" caption>
-          {{ getCovidData.update | formatDate }}
-        </q-item-label>
-      </q-item-section>
-    </q-item>
+    <q-card-section class="q-pa-none">
+      <q-item>
+        <q-item-section avatar>
+          <q-avatar size="80px" square>
+            <q-img :src="getCovidData.flag" contain/>
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Ùltima actualizaciòn de los datos</q-item-label>
+          <q-item-label class="text-white" caption>
+            {{ getCovidData.update | formatDate }}
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-card-section>
     <q-separator/>
-    <q-card-section class="q-my-none">
+    <q-card-section class="q-my-none flex justify-between">
       <div class="text-h6 text-weight-light text-weight-light">
         Total de casos confirmados
       </div>
+      <q-btn
+        dense
+        flat
+        icon="mdi-chart-box-outline"
+        v-if="(getCountrySelected?.value !== 'south america')"
+        @click="showDialogChart"
+      />
     </q-card-section>
     <q-card-section class="q-py-none">
       <div class="row">
@@ -51,6 +60,8 @@
 import { defineComponent } from 'vue'
 import { ICovidData } from '../store/CovidModule/moduleInterfaces'
 import mixinFilters from '../mixins/filterMixin'
+import { mapGetters } from 'vuex'
+import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'TotalCasesCard',
@@ -58,8 +69,20 @@ export default defineComponent({
   mixins: [mixinFilters],
 
   computed: {
+    ...mapGetters('covidModule', ['getCountrySelected']),
+
     getCovidData (): ICovidData | any {
       return this.$store.getters['covidModule/getCovidData']
+    }
+  },
+
+  methods: {
+    showDialogChart () {
+      EventBus.$emit('showDialogHistoricalChart', {
+        show: true,
+        title: 'Casos confirmados',
+        categoryCard: 'cases'
+      })
     }
   }
 })

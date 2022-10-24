@@ -9,7 +9,9 @@ const getters: GetterTree<CovidStateInterface, StateInterface> = {
 
   getTestChartData: (state): ITestChartSeries[] | null => (state.testChartData),
 
-  getCountrySelected: (state): ICountrySelected => (state.countrySelected)
+  getCountrySelected: (state): ICountrySelected => (state.countrySelected),
+
+  getHistoricalData: (state): any[] | null => (state.historicalData)
 }
 
 export default getters

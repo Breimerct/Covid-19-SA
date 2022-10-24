@@ -4,7 +4,8 @@ import { ICountrySelected } from 'src/models/models'
 export interface CovidStateInterface {
   covidData: ICovidData | null
   testChartData: ITestChartSeries[] | null
-  countrySelected: ICountrySelected
+  countrySelected: ICountrySelected,
+  historicalData: any[] | null
 }
 
 const state = (): CovidStateInterface => ({
@@ -13,7 +14,8 @@ const state = (): CovidStateInterface => ({
   countrySelected: {
     label: 'Sur America',
     value: 'south america'
-  }
+  },
+  historicalData: null
 })
 
 export default state

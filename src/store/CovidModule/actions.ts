@@ -8,7 +8,7 @@ import southAmerica from '../../assets/flags/south_america.png'
 import Util from 'src/helpers/Util'
 
 const actions: ActionTree<CovidStateInterface, StateInterface> = {
-  async fetchCountryData ({ commit, dispatch }, payload: string): Promise<void> {
+  async fetchCountryData ({ commit }, payload: string): Promise<void> {
     try {
       const endpoint = payload === 'south america' ? 'continents' : 'countries'
       Loading.show()
@@ -17,9 +17,6 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
         ...data,
         flag: (data.countryInfo?.flag || southAmerica)
       })
-      if (!payload.includes('south')) {
-        dispatch('fetchVaccineData', payload)
-      }
     } catch (e: any) {
       console.error(e.response.data?.message || e)
     } finally {
@@ -33,12 +30,10 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
       const countries = Util.countriesItems.map(country => country.value)
       countries.shift()
       const { data } = await httpClient.get<ICovidData[]>(`/countries/${countries.join(',')}`)
-      commit('setTestChartData', [
-        {
-          name: 'Pruebas',
-          data: data.map(val => val.tests)
-        }
-      ])
+      commit('setTestChartData', [{
+        name: 'Pruebas',
+        data: data.map(val => val.tests)
+      }])
     } catch (e: any) {
       console.error(e.response.data?.message || e)
     } finally {
@@ -46,7 +41,10 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     }
   },
 
-  async fetchVaccineData ({ state, commit }, country: string): Promise<void> {
+  async fetchVaccineData ({
+    state,
+    commit
+  }, country: string): Promise<void> {
     const _country = Util.countriesItems.filter(value => (value.value === country))
     try {
       Loading.show()
@@ -56,9 +54,20 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
         }
       })
       const timelineArray = Object.keys((data.timeline))
+      const historicalData: any[] = []
+      timelineArray.forEach(value => {
+        historicalData.push([new Date(value).getTime(), data.timeline[value]])
+      })
       commit('setCovidData', {
         ...state.covidData,
         vaccine: data.timeline[timelineArray[(timelineArray.length - 1)]]
+      })
+      commit('setHistoricalData', {
+        vaccines: [{
+          name: 'Vacunados',
+          data: historicalData,
+          color: '#3f51b5'
+        }]
       })
     } catch (e: any) {
       console.error(e.response.data?.message || e)
@@ -68,6 +77,28 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
           message: `${_country[0].label} no contiene datos de vacunas`
         })
       }
+    } finally {
+      Loading.hide()
+    }
+  },
+
+  async fetchCategoriesHistoricalData ({ state, commit }, payload: string) {
+    try {
+      Loading.show()
+      const { data } = await httpClient.get(`/historical/${payload}/`, {
+        params: {
+          lastdays: 30
+        }
+      })
+      Util.getFormatChartData(data.timeline, 'cases')
+      commit('setHistoricalData', {
+        ...state.historicalData,
+        cases: Util.getFormatChartData(data.timeline, 'cases'),
+        deaths: Util.getFormatChartData(data.timeline, 'deaths'),
+        recovered: Util.getFormatChartData(data.timeline, 'recovered')
+      })
+    } catch (e: any) {
+      console.error(e.response.data?.message || e)
     } finally {
       Loading.hide()
     }

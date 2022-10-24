@@ -4,15 +4,16 @@ export interface ICountrySelected {
 }
 
 export interface ICountriesOptions {
-  label: string,
-  value: string,
+  label: string
+  value: string
   img: string
 }
 
 export interface ICategory {
-  title: string,
-  icon: string,
-  total: number,
-  color: string,
+  category: string
+  title: string
+  icon: string
+  total: number
+  color: string
   today: number
 }
