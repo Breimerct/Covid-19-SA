@@ -12,11 +12,7 @@
         flat
         dense
         icon="mdi-chart-box-outline"
-        v-if="
-          (index !== 3) &&
-          (index !== 1) &&
-          (getCountrySelected?.value !== 'south america')
-        "
+        v-if="validateVisibleHistoricalButton"
         @click="showDialogChart"
       />
     </q-card-section>
@@ -79,11 +75,21 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters('covidModule', ['getCountrySelected'])
+    ...mapGetters('covidModule', ['getCountrySelected', 'getHistoricalData']),
+
+    validateVisibleHistoricalButton (): boolean {
+      return (
+        (this.index !== 3) &&
+        (this.index !== 1) &&
+        (!this.getCountrySelected?.value.includes('south')) &&
+        (!this.getCountrySelected?.value.includes('french')) &&
+        (!this.getCountrySelected?.value.includes('falkland'))
+      )
+    }
   },
 
   methods: {
-    showDialogChart () {
+    showDialogChart (): void {
       EventBus.$emit('showDialogHistoricalChart', {
         show: true,
         title: this.title,

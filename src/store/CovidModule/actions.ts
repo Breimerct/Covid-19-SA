@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import { StateInterface } from '../index'
 import { CovidStateInterface } from './state'
 import { httpClient } from 'boot/axios'
-import { Loading, Notify } from 'quasar'
+import { Loading } from 'quasar'
 import { ICovidData } from 'src/store/CovidModule/moduleInterfaces'
 import southAmerica from '../../assets/flags/south_america.png'
 import Util from 'src/helpers/Util'
@@ -45,7 +45,6 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     state,
     commit
   }, country: string): Promise<void> {
-    const _country = Util.countriesItems.filter(value => (value.value === country))
     try {
       Loading.show()
       const { data } = await httpClient.get(`/vaccine/coverage/countries/${country}/`, {
@@ -71,12 +70,6 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
       })
     } catch (e: any) {
       console.error(e.response.data?.message || e)
-      if (e.response.status === 404) {
-        Notify.create({
-          type: 'info',
-          message: `${_country[0].label} no contiene datos de vacunas`
-        })
-      }
     } finally {
       Loading.hide()
     }

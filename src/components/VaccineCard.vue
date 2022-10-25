@@ -36,10 +36,10 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import mixinFilters from '../mixins/filterMixin'
-import { mapGetters } from 'vuex'
 import EventBus from '../helpers/EventBus'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'VaccineCard',
@@ -47,11 +47,11 @@ export default {
   mixins: [mixinFilters],
 
   computed: {
-    ...mapGetters('covidModule', ['getCovidData'])
+    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected'])
   },
 
   methods: {
-    showDialogChart () {
+    showDialogChart (): void {
       EventBus.$emit('showDialogHistoricalChart', {
         show: true,
         title: 'Vacunados',

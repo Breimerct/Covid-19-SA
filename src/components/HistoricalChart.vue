@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapGetters } from 'vuex'
 import Util from 'src/helpers/Util'
 
 export default defineComponent({
@@ -27,14 +28,19 @@ export default defineComponent({
   },
 
   computed: {
+    ...mapGetters('covidModule', ['getHistoricalData']),
+
     getChartData (): any {
-      return this.$store.getters['covidModule/getHistoricalData'][this.category]
+      return this.getHistoricalData[this.category]
     },
 
     chartOptions (): any {
       return {
         colors: ['#000'],
         chart: {
+          toolbar: {
+            show: false
+          },
           zoom: {
             enabled: false
           },
@@ -49,6 +55,15 @@ export default defineComponent({
             dynamicAnimation: {
               enabled: true,
               speed: 350
+            }
+          }
+        },
+        grid: {
+          borderColor: '#000',
+          strokeDashArray: 0,
+          xaxis: {
+            lines: {
+              show: true
             }
           }
         },

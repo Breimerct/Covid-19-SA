@@ -28,7 +28,7 @@
         dense
         flat
         icon="mdi-chart-box-outline"
-        v-if="(getCountrySelected?.value !== 'south america')"
+        v-if="validateVisibleHistoricalButton"
         @click="showDialogChart"
       />
     </q-card-section>
@@ -58,7 +58,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ICovidData } from '../store/CovidModule/moduleInterfaces'
 import mixinFilters from '../mixins/filterMixin'
 import { mapGetters } from 'vuex'
 import EventBus from 'src/helpers/EventBus'
@@ -69,10 +68,14 @@ export default defineComponent({
   mixins: [mixinFilters],
 
   computed: {
-    ...mapGetters('covidModule', ['getCountrySelected']),
+    ...mapGetters('covidModule', ['getCountrySelected', 'getCovidData']),
 
-    getCovidData (): ICovidData | any {
-      return this.$store.getters['covidModule/getCovidData']
+    validateVisibleHistoricalButton (): boolean {
+      return (
+        (!this.getCountrySelected?.value.includes('south')) &&
+        (!this.getCountrySelected?.value.includes('french')) &&
+        (!this.getCountrySelected?.value.includes('falkland'))
+      )
     }
   },
 

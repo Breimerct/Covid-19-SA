@@ -12,7 +12,7 @@
       <div class="row q-mt-xs q-col-gutter-sm">
         <div
           class="col-6"
-          v-for="(category, index) in getCategories()"
+          v-for="(category, index) in getCategories"
           :key="index"
         >
           <covid-card
@@ -30,7 +30,7 @@
       >
         <vaccine-card/>
       </div>
-      <div class="q-mt-lg" v-if="!getCovidData?.country">
+      <div class="q-mt-sm" v-if="!getCovidData?.country">
         <test-chart/>
       </div>
     </div>
@@ -57,10 +57,8 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected'])
-  },
+    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
 
-  methods: {
     getCategories (): ICategory[] {
       return [
         {
@@ -97,7 +95,9 @@ export default defineComponent({
         }
       ]
     }
-  }
+  },
+
+  methods: {}
 })
 </script>
 <style lang="scss" scoped>

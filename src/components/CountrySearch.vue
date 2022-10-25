@@ -3,8 +3,12 @@
     <q-select
       outlined
       rounded
+      use-input
+      hide-selected
+      ref="countrySearchSelect"
       v-model="countrySelected"
       :options="countriesItems"
+      @filter="searchCountry"
       label="Selecciona un páis"
     >
       <template v-slot:option="scope">
@@ -28,8 +32,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ICountriesOptions, ICountrySelected } from '../models/models'
-import Util from 'src/helpers/Util'
 import { mapActions, mapMutations } from 'vuex'
+import Util from 'src/helpers/Util'
 
 export default defineComponent({
   name: 'CountrySearch',
@@ -42,15 +46,30 @@ export default defineComponent({
       label: 'Sur America',
       value: 'south america'
     },
-    countriesItems: Util.countriesItems
+    countriesItems: []
   }),
 
   watch: {
     countrySelected (value: ICountrySelected): void {
+      this.setHistoricalData(null)
       this.setCountrySelected(value)
       this.fetchCountryData(value.value)
-      this.fetchVaccineData(value.value)
-      this.fetchCategoriesHistoricalData(value.value)
+      this.$refs.countrySearchSelect.blur()
+
+      if (
+        !value.value.includes('french') &&
+        !value.value.includes('south')
+      ) {
+        this.fetchVaccineData(value.value)
+      }
+
+      if (
+        !value.value.includes('french') &&
+        !value.value.includes('south') &&
+        !value.value.includes('falkland')
+      ) {
+        this.fetchCategoriesHistoricalData(value.value)
+      }
     }
   },
 
@@ -60,7 +79,18 @@ export default defineComponent({
       'fetchVaccineData',
       'fetchCategoriesHistoricalData'
     ]),
-    ...mapMutations('covidModule', ['setCountrySelected'])
+    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData']),
+
+    searchCountry (val: string, update: any): void {
+      update(() => {
+        if (!val) {
+          this.countriesItems = Util.countriesItems
+        } else {
+          const needle = val.toLowerCase()
+          this.countriesItems = Util.countriesItems.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        }
+      })
+    }
   },
 
   mounted () {

@@ -18,7 +18,7 @@ import { ICountriesOptions } from 'src/models/models'
 export default class Util {
   static countriesItems: ICountriesOptions[] = [
     {
-      label: 'Sur America',
+      label: 'Sur América',
       value: 'south america',
       img: southAmerica
     },
@@ -94,9 +94,9 @@ export default class Util {
     }
   ]
 
-  static formatNumber = (value: number) => {
+  static formatNumber = (value: number): string => {
     try {
-      let nums: any[] = []
+      let nums: string[]
       const dot = '.'
       let valueString = value.toString()
       valueString = valueString.replace(/\D/g, '')
@@ -114,7 +114,7 @@ export default class Util {
       }
       return res
     } catch (error) {
-      return null
+      return '0'
     }
   }
 
@@ -126,7 +126,7 @@ export default class Util {
       historicalData.push([new Date(key).getTime(), object[property][key]])
     })
     return [{
-      name: (category.name),
+      name: category.name,
       data: historicalData,
       color: category.color
     }]
