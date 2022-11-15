@@ -3,7 +3,7 @@
     <q-card-section>
       <vue-apex-charts
         type="bar"
-        height="300"
+        height="450"
         width="100%"
         :options="getChartOptions"
         :series="getTestChartData"

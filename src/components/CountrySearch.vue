@@ -14,7 +14,7 @@
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <q-img :src="scope.opt.img"/>
+            <q-img :src="scope.opt.flag"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ scope.opt.label }}</q-item-label>
@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { ICountriesOptions, ICountrySelected } from '../models/models'
+import { ICountriesOptions } from '../models/models'
 import { mapActions, mapMutations } from 'vuex'
 import Util from 'src/helpers/Util'
 
@@ -39,18 +39,15 @@ export default defineComponent({
   name: 'CountrySearch',
 
   data: (): {
-    countrySelected: ICountrySelected
+    countrySelected: ICountriesOptions
     countriesItems: ICountriesOptions[]
   } => ({
-    countrySelected: {
-      label: 'Sur America',
-      value: 'south america'
-    },
+    countrySelected: Util.countriesItems.filter(country => country.value === 'south america')[0],
     countriesItems: []
   }),
 
   watch: {
-    countrySelected (value: ICountrySelected): void {
+    countrySelected (value: ICountriesOptions): void {
       this.setHistoricalData(null)
       this.setCountrySelected(value)
       this.fetchCountryData(value.value)
@@ -87,7 +84,7 @@ export default defineComponent({
           this.countriesItems = Util.countriesItems
         } else {
           const needle = val.toLowerCase()
-          this.countriesItems = Util.countriesItems.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+          this.countriesItems = Util.countriesItems.filter(v => v.label.toLowerCase().includes(needle))
         }
       })
     }
@@ -100,5 +97,4 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-
 </style>

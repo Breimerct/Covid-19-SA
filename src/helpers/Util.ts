@@ -14,93 +14,93 @@ import guyana from '../assets/flags/guyana.png'
 import frenchGuiana from '../assets/flags/french_guiana.png'
 import venezuela from '../assets/flags/venezuela.png'
 import { ICountriesOptions } from 'src/models/models'
+import { ICategories } from 'src/store/CovidModule/moduleInterfaces'
 
 export default class Util {
   static countriesItems: ICountriesOptions[] = [
     {
       label: 'Sur América',
       value: 'south america',
-      img: southAmerica
+      flag: southAmerica
     },
     {
       label: 'Colombia',
       value: 'colombia',
-      img: colombia
+      flag: colombia
     },
     {
       label: 'Brazil',
       value: 'brazil',
-      img: brazil
+      flag: brazil
     },
     {
       label: 'Argentina',
       value: 'argentina',
-      img: argentina
+      flag: argentina
     },
     {
       label: 'Chile',
       value: 'chile',
-      img: chile
+      flag: chile
     },
     {
       label: 'Venezuela',
       value: 'venezuela',
-      img: venezuela
+      flag: venezuela
     },
     {
       label: 'Perú',
       value: 'peru',
-      img: peru
+      flag: peru
     },
     {
       label: 'Ecuador',
       value: 'ecuador',
-      img: ecuador
+      flag: ecuador
     },
     {
       label: 'Bolivia',
       value: 'bolivia',
-      img: bolivia
+      flag: bolivia
     },
     {
       label: 'Paraguay',
       value: 'paraguay',
-      img: paraguay
+      flag: paraguay
     },
     {
       label: 'Uruguay',
       value: 'uruguay',
-      img: uruguay
+      flag: uruguay
     },
     {
       label: 'Surinam',
       value: 'suriname',
-      img: suriname
+      flag: suriname
     },
     {
       label: 'Guyana',
       value: 'guyana',
-      img: guyana
+      flag: guyana
     },
     {
       label: 'Islas Malvinas',
       value: 'falkland islands (malvinas)',
-      img: falklandIslandsMalvinas
+      flag: falklandIslandsMalvinas
     },
     {
       label: 'Guyana Francesa',
       value: 'french guiana',
-      img: frenchGuiana
+      flag: frenchGuiana
     }
   ]
 
   static formatNumber = (value: number): string => {
     try {
-      let nums: string[]
       const dot = '.'
       let valueString = value.toString()
       valueString = valueString.replace(/\D/g, '')
-      nums = valueString.split('')
+      const nums = valueString.split('')
       const long = nums.length - 1
       const pattern = 3
       let prox = 2
@@ -118,7 +118,7 @@ export default class Util {
     }
   }
 
-  static getFormatChartData (object: any, property: string) {
+  static getFormatChartData (object: any, property: string): ICategories[] {
     const keysObject = Object.keys(object[property])
     const historicalData: any[] = []
     const category = this.getColorAndNameCategory(property)
@@ -132,7 +132,7 @@ export default class Util {
     }]
   }
 
-  static getColorAndNameCategory (category: string) {
+  static getColorAndNameCategory (category: string): { name: string; color: string } {
     switch (category) {
       case 'cases': {
         return {

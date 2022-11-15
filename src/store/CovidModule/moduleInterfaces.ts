@@ -29,3 +29,16 @@ export interface IHistoricalData {
     recovered?: any
   }
 }
+
+export interface ICategories {
+  name: string
+  data: Array<number[]>
+  color: string
+}
+
+export interface IChartHistoricalData {
+  vaccines: ICategories[]
+  cases: ICategories[]
+  deaths: ICategories[]
+  recovered: ICategories[]
+}

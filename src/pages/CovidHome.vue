@@ -62,19 +62,11 @@ export default defineComponent({
     getCategories (): ICategory[] {
       return [
         {
-          category: 'deaths',
-          title: 'Fallecidos',
-          icon: 'F0B7F',
-          total: this.getCovidData?.deaths || 0,
-          color: 'red',
-          today: this.getCovidData?.todayDeaths || 0
-        },
-        {
-          category: 'active',
-          title: 'Activos',
-          icon: 'F0849',
-          total: this.getCovidData?.active || 0,
-          color: 'blue-7',
+          category: 'test',
+          title: 'Pruebas',
+          icon: 'F0668',
+          total: this.getCovidData?.tests || 0,
+          color: 'amber-8',
           today: 0
         },
         {
@@ -86,12 +78,20 @@ export default defineComponent({
           today: this.getCovidData?.todayRecovered || 0
         },
         {
-          category: 'test',
-          title: 'Pruebas',
-          icon: 'F0668',
-          total: this.getCovidData?.tests || 0,
-          color: 'amber-8',
+          category: 'active',
+          title: 'Activos',
+          icon: 'F0849',
+          total: this.getCovidData?.active || 0,
+          color: 'blue-7',
           today: 0
+        },
+        {
+          category: 'deaths',
+          title: 'Fallecidos',
+          icon: 'F0B7F',
+          total: this.getCovidData?.deaths || 0,
+          color: 'red',
+          today: this.getCovidData?.todayDeaths || 0
         }
       ]
     }

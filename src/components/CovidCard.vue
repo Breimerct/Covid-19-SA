@@ -79,8 +79,8 @@ export default defineComponent({
 
     validateVisibleHistoricalButton (): boolean {
       return (
-        (this.index !== 3) &&
-        (this.index !== 1) &&
+        (this.index !== 0) &&
+        (this.index !== 2) &&
         (!this.getCountrySelected?.value.includes('south')) &&
         (!this.getCountrySelected?.value.includes('french')) &&
         (!this.getCountrySelected?.value.includes('falkland'))

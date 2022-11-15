@@ -8,7 +8,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar size="80px" square>
-            <q-img :src="getCovidData.flag" contain/>
+            <q-img :src="getCountrySelected.flag" contain/>
           </q-avatar>
         </q-item-section>
         <q-item-section>
