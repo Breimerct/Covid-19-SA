@@ -35,6 +35,8 @@ import { ICountriesOptions } from '../models/models'
 import { mapActions, mapMutations } from 'vuex'
 import Util from 'src/helpers/Util'
 
+const southAmerica = Util.countriesItems.filter(country => country.value === 'south america')[0]
+
 export default defineComponent({
   name: 'CountrySearch',
 
@@ -42,7 +44,7 @@ export default defineComponent({
     countrySelected: ICountriesOptions
     countriesItems: ICountriesOptions[]
   } => ({
-    countrySelected: Util.countriesItems.filter(country => country.value === 'south america')[0],
+    countrySelected: southAmerica,
     countriesItems: []
   }),
 
