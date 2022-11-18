@@ -2,14 +2,18 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar class="bg-grey-3 text-black">
-        <q-toolbar-title>
-          Covid-19 SA
+        <q-toolbar-title class="flex content-center">
+          <q-icon size="md" class="q-mr-sm">
+            <q-img src="../assets/covid-icon.svg" alt="Covid-19 SA Logo"/>
+          </q-icon>
+          Covid-19 Sur América
         </q-toolbar-title>
 
         <q-btn
           flat
           dense
-          icon="mdi-info"
+          round
+          icon="mdi-information"
         >
         </q-btn>
       </q-toolbar>
@@ -22,9 +26,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'MainLayout'
-}
+})
 
 </script>

@@ -12,7 +12,7 @@
       <div class="row q-mt-xs q-col-gutter-sm">
         <div
           class="col-6"
-          v-for="(category, index) in getCategories()"
+          v-for="(category, index) in getCategories"
           :key="index"
         >
           <covid-card
@@ -30,7 +30,7 @@
       >
         <vaccine-card/>
       </div>
-      <div class="q-mt-lg" v-if="!getCovidData?.country">
+      <div class="q-mt-sm" v-if="!getCovidData?.country">
         <test-chart/>
       </div>
     </div>
@@ -57,26 +57,16 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected'])
-  },
+    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
 
-  methods: {
     getCategories (): ICategory[] {
       return [
         {
-          category: 'deaths',
-          title: 'Fallecidos',
-          icon: 'F0B7F',
-          total: this.getCovidData?.deaths || 0,
-          color: 'red',
-          today: this.getCovidData?.todayDeaths || 0
-        },
-        {
-          category: 'active',
-          title: 'Activos',
-          icon: 'F0849',
-          total: this.getCovidData?.active || 0,
-          color: 'blue-7',
+          category: 'test',
+          title: 'Pruebas',
+          icon: 'F0668',
+          total: this.getCovidData?.tests || 0,
+          color: 'amber-8',
           today: 0
         },
         {
@@ -88,16 +78,26 @@ export default defineComponent({
           today: this.getCovidData?.todayRecovered || 0
         },
         {
-          category: 'test',
-          title: 'Pruebas',
-          icon: 'F0668',
-          total: this.getCovidData?.tests || 0,
-          color: 'amber-8',
+          category: 'active',
+          title: 'Activos',
+          icon: 'F0849',
+          total: this.getCovidData?.active || 0,
+          color: 'blue-7',
           today: 0
+        },
+        {
+          category: 'deaths',
+          title: 'Fallecidos',
+          icon: 'F0B7F',
+          total: this.getCovidData?.deaths || 0,
+          color: 'red',
+          today: this.getCovidData?.todayDeaths || 0
         }
       ]
     }
-  }
+  },
+
+  methods: {}
 })
 </script>
 <style lang="scss" scoped>

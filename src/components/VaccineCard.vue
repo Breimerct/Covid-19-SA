@@ -9,7 +9,7 @@
       </p>
       <q-skeleton
         size="35px"
-        v-if="!getCovidData.vaccine"
+        v-if="!vaccineData"
       />
       <q-btn
         v-else
@@ -25,10 +25,10 @@
         <div class="col-12 text-right" style="min-height: 50px">
           <q-skeleton
             class="text-h5 text-weight-light"
-            v-if="!getCovidData.vaccine"
+            v-if="!vaccineData"
           />
           <p class="text-h5 text-right text-weight-light" v-else>
-            {{ getCovidData.vaccine | formatNumber }}
+            {{ vaccineData | formatNumber }}
           </p>
         </div>
       </div>
@@ -36,10 +36,10 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import mixinFilters from '../mixins/filterMixin'
-import { mapGetters } from 'vuex'
 import EventBus from '../helpers/EventBus'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'VaccineCard',
@@ -47,11 +47,15 @@ export default {
   mixins: [mixinFilters],
 
   computed: {
-    ...mapGetters('covidModule', ['getCovidData'])
+    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
+
+    vaccineData (): number {
+      return parseInt(this.getCovidData.vaccine) || 0
+    }
   },
 
   methods: {
-    showDialogChart () {
+    showDialogChart (): void {
       EventBus.$emit('showDialogHistoricalChart', {
         show: true,
         title: 'Vacunados',
