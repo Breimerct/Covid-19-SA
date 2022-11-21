@@ -12,3 +12,9 @@ export interface ICategory {
   color: string
   today: number
 }
+
+export interface ISocial {
+  url: string
+  icon: string
+  color: string
+}

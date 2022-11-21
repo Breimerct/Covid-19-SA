@@ -14,6 +14,7 @@
           dense
           round
           icon="mdi-information"
+          @click="showCardInfo"
         >
         </q-btn>
       </q-toolbar>
@@ -22,6 +23,8 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <card-info />
   </q-layout>
 </template>
 
@@ -29,7 +32,18 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'MainLayout'
+  name: 'MainLayout',
+
+  components: {
+    CardInfo: () => import('components/CardInfo.vue')
+  },
+
+  methods: {
+    showCardInfo () {
+      this.$root.$emit('showInfoCard', true)
+    }
+  }
+
 })
 
 </script>

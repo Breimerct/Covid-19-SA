@@ -12,10 +12,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@capacitor/share": "^4.1.0",
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.36.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "dotenv": "^16.0.3",
     "moment": "^2.29.4",
     "quasar": "^1.0.0",
     "vue-apexcharts": "^1.6.2",
@@ -23,7 +25,6 @@
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
-    "@quasar/quasar-app-extension-dotenv": "^1.1.0",
     "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
