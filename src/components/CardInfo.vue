@@ -8,7 +8,7 @@
         <div>
           <q-avatar size="100px" class="shadow-10">
             <q-img
-              :src="profile"
+              src="../assets/profile.jpg"
               alt="profile-image"
               ratio="1"
             />
@@ -48,11 +48,9 @@ export default {
 
   data: (): {
     showDialog: boolean
-    profile: string
     social: ISocial[]
   } => ({
     showDialog: false,
-    profile: require('src/assets/profile.jpg'),
     social: [
       {
         url: 'https://web.facebook.com/Breimerct',
