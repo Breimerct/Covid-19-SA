@@ -38,6 +38,11 @@ export default defineComponent({
       return {
         colors: ['#000'],
         chart: {
+          defaultLocale: this.$i18n.locale,
+          locales: [{
+            name: this.$i18n.locale,
+            options: this.$t('configChart.locales')
+          }],
           toolbar: {
             show: false
           },
@@ -71,7 +76,7 @@ export default defineComponent({
           enabled: false
         },
         title: {
-          text: 'Estadisticas por día',
+          text: this.$t('configChart.statisticsPerDay'),
           align: 'center',
           style: {
             color: '#000',
@@ -83,6 +88,11 @@ export default defineComponent({
         tooltip: {
           x: {
             format: 'dd MMM yyyy'
+          },
+          y: {
+            title: {
+              formatter: (seriesName: string): string => Util.capitalizeFirstLetter(seriesName)
+            }
           }
         },
         xaxis: {

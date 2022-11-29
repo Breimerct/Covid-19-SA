@@ -7,9 +7,8 @@
       hide-selected
       ref="countrySearchSelect"
       v-model="countrySelected"
-      :options="countriesItems"
-      @filter="searchCountry"
-      label="Selecciona un páis"
+      :options="countryItems"
+      :label="$t('selectCountry')"
     >
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -17,7 +16,7 @@
             <q-img :src="scope.opt.flag"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ scope.opt.label }}</q-item-label>
+            <q-item-label>{{ scope.opt.label | capitalize }}</q-item-label>
           </q-item-section>
         </q-item>
       </template>
@@ -33,20 +32,22 @@
 import { defineComponent } from 'vue'
 import { ICountriesOptions } from '../models/models'
 import { mapActions, mapMutations } from 'vuex'
-import Util from 'src/helpers/Util'
-
-const southAmerica = Util.countriesItems.filter(country => country.value === 'south america')[0]
+import util from 'src/helpers/Util'
 
 export default defineComponent({
   name: 'CountrySearch',
 
   data: (): {
     countrySelected: ICountriesOptions
-    countriesItems: ICountriesOptions[]
   } => ({
-    countrySelected: southAmerica,
-    countriesItems: []
+    countrySelected: util.getSouthAmerica()
   }),
+
+  computed: {
+    countryItems (): ICountriesOptions[] {
+      return Object.values<ICountriesOptions>(util.getCountryItems())
+    }
+  },
 
   watch: {
     countrySelected (value: ICountriesOptions): void {
@@ -78,18 +79,7 @@ export default defineComponent({
       'fetchVaccineData',
       'fetchCategoriesHistoricalData'
     ]),
-    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData']),
-
-    searchCountry (val: string, update: any): void {
-      update(() => {
-        if (!val) {
-          this.countriesItems = Util.countriesItems
-        } else {
-          const needle = val.toLowerCase()
-          this.countriesItems = Util.countriesItems.filter(v => v.label.toLowerCase().includes(needle))
-        }
-      })
-    }
+    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData'])
   },
 
   mounted () {

@@ -5,6 +5,7 @@ import { httpClient } from 'boot/axios'
 import { Loading } from 'quasar'
 import { ICovidData, IHistoricalData } from 'src/store/CovidModule/moduleInterfaces'
 import Util from 'src/helpers/Util'
+import { i18n } from 'boot/i18n'
 
 const actions: ActionTree<CovidStateInterface, StateInterface> = {
   async fetchCountryData ({ commit }, payload: string): Promise<void> {
@@ -23,11 +24,11 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
   async fetchTestChartData ({ commit }): Promise<void> {
     try {
       Loading.show()
-      const countries = Util.countriesItems.map(country => country.value)
+      const countries = Util.getCountryItems().map(country => country.value)
       countries.shift()
       const { data } = await httpClient.get<ICovidData[]>(`/countries/${countries.join(',')}`)
       commit('setTestChartData', [{
-        name: 'Pruebas',
+        name: i18n.t('categories.tests'),
         data: data.map(val => val.tests)
       }])
     } catch (e: any) {
@@ -59,7 +60,7 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
       })
       commit('setHistoricalData', {
         vaccines: [{
-          name: 'Vacunados',
+          name: i18n.t('categories.vaccinated'),
           data: historicalData,
           color: '#3f51b5'
         }]

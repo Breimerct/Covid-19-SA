@@ -1,5 +1,6 @@
 export interface ICountriesOptions {
   label: string
+  shortName?: string
   value: string
   flag: string
 }

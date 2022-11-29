@@ -3,7 +3,7 @@
     <q-card-section>
       <vue-apex-charts
         type="bar"
-        height="450"
+        height="350"
         width="100%"
         :options="getChartOptions"
         :series="getTestChartData"
@@ -16,7 +16,8 @@
 
 import { defineComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import Util from 'src/helpers/Util'
+import util from 'src/helpers/Util'
+import { ICountriesOptions } from 'src/models/models'
 
 export default defineComponent({
   name: 'TestChart',
@@ -29,8 +30,10 @@ export default defineComponent({
     ...mapGetters('covidModule', ['getTestChartData']),
 
     getChartOptions (): any {
-      const countries = Util.countriesItems.map(country => country.label)
+      const countries = Object.values<ICountriesOptions>(util.getCountryItems())
+        .map(country => ((country.shortName || '').toUpperCase()))
       countries.shift()
+
       return {
         colors: ['#ffa000'],
         chart: {
@@ -38,8 +41,15 @@ export default defineComponent({
             show: false
           }
         },
+        tooltip: {
+          y: {
+            title: {
+              formatter: (seriesName: string): string => util.capitalizeFirstLetter(seriesName)
+            }
+          }
+        },
         title: {
-          text: 'Pruebas realizadas',
+          text: this.$t('configChart.testsPerformed'),
           align: 'center',
           style: {
             color: '#000',
@@ -74,7 +84,7 @@ export default defineComponent({
         },
         yaxis: {
           labels: {
-            show: false,
+            show: !this.$q.platform.is.mobile,
             style: {
               color: ['#000'],
               fontFamily: 'Roboto',
@@ -82,7 +92,7 @@ export default defineComponent({
               fontWeight: 400
             },
             formatter: (val: number) => {
-              return Util.formatNumber(val)
+              return util.formatNumber(val)
             }
           }
         }

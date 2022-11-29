@@ -6,7 +6,7 @@
           <q-icon size="md" class="q-mr-sm">
             <q-img src="../assets/covid-icon.svg" alt="Covid-19 SA Logo"/>
           </q-icon>
-          Covid-19 Sur América
+          {{ $t('nameApp') }}
         </q-toolbar-title>
 
         <q-btn
@@ -14,17 +14,41 @@
           dense
           round
           icon="mdi-information"
-          @click="showCardInfo"
         >
+          <q-menu
+            fit
+            transition-show="jump-down"
+            transition-hide="jump-up"
+          >
+            <q-list separator style="min-width: 300px">
+              <q-item>
+                <q-item-section>
+                  <q-btn
+                    outline
+                    color="primary"
+                    :label="$t('changeLang')"
+                    @click="changeLang"
+                  >
+                    <q-icon class="q-ml-md">
+                      <q-img :src="getLanguageFlag"/>
+                    </q-icon>
+                  </q-btn>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <card-info/>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
-
-    <card-info />
   </q-layout>
 </template>
 
@@ -38,9 +62,21 @@ export default defineComponent({
     CardInfo: () => import('components/CardInfo.vue')
   },
 
+  computed: {
+    getLanguageFlag (): any {
+      return this.$i18n.locale === 'en-us' ? require('../assets/flags/colombia.png') : require('../assets/flags/united_states.png')
+    }
+  },
+
   methods: {
-    showCardInfo () {
-      this.$root.$emit('showInfoCard', true)
+    changeLang () {
+      if (this.$i18n.locale === 'es-es') {
+        this.$i18n.locale = 'en-us'
+        this.$i18n.fallbackLocale = 'en-us'
+      } else {
+        this.$i18n.locale = 'es-es'
+        this.$i18n.fallbackLocale = 'es-es'
+      }
     }
   }
 

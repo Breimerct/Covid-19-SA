@@ -8,13 +8,20 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar size="80px" square>
-            <q-img :src="getCountrySelected.flag" contain/>
+            <q-img
+              :src="getCountrySelected.flag"
+              alt="country flag"
+              ratio="1"
+              contain
+            />
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label>Ùltima actualizaciòn de los datos</q-item-label>
+          <q-item-label>
+            {{ $t('lastUpdate').toString() | capitalizeFirstLetter }}
+          </q-item-label>
           <q-item-label class="text-white" caption>
-            {{ getCovidData.update | formatDate }}
+            {{ getCovidData.update | formatDate | capitalizeFirstLetter }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -22,7 +29,7 @@
     <q-separator/>
     <q-card-section class="q-my-none flex justify-between">
       <div class="text-h6 text-weight-light text-weight-light">
-        Total de casos confirmados
+        {{ $t('totalCasesTitle').toString() | capitalizeFirstLetter }}
       </div>
       <q-btn
         dense
@@ -48,7 +55,7 @@
             </p>
           </div>
           <div class="text-italic">
-            incremento+ {{ getCovidData.todayCases | formatNumber }}
+            {{ `${$t('increment')}+` }} {{ getCovidData.todayCases | formatNumber }}
           </div>
         </div>
       </div>
@@ -58,14 +65,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import mixinFilters from '../mixins/filterMixin'
 import { mapGetters } from 'vuex'
-import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'TotalCasesCard',
-
-  mixins: [mixinFilters],
 
   computed: {
     ...mapGetters('covidModule', ['getCountrySelected', 'getCovidData']),
@@ -81,9 +84,9 @@ export default defineComponent({
 
   methods: {
     showDialogChart () {
-      EventBus.$emit('showDialogHistoricalChart', {
+      this.$root.$emit('showDialogHistoricalChart', {
         show: true,
-        title: 'Casos confirmados',
+        title: this.$t('totalCasesTitle'),
         categoryCard: 'cases'
       })
     }

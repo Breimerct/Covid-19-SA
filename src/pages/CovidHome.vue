@@ -5,11 +5,11 @@
         <div class="col-12">
           <country-search/>
         </div>
-        <div class="col-12 q-mt-lg">
+      </div>
+      <div class="row q-mt-xs q-col-gutter-md">
+        <div class="col-12">
           <total-cases-card/>
         </div>
-      </div>
-      <div class="row q-mt-xs q-col-gutter-sm">
         <div
           class="col-6"
           v-for="(category, index) in getCategories"
@@ -20,18 +20,21 @@
             :index="index"
           />
         </div>
-      </div>
-      <div
-        class="q-mt-sm"
-        v-if="
+        <div
+          class="col-12"
+          v-if="
           getCovidData?.country &&
           getCountrySelected.value !== 'french guiana'
         "
-      >
-        <vaccine-card/>
-      </div>
-      <div class="q-mt-sm" v-if="!getCovidData?.country">
-        <test-chart/>
+        >
+          <vaccine-card/>
+        </div>
+        <div
+          class="col-12"
+          v-if="!getCovidData?.country"
+        >
+          <test-chart/>
+        </div>
       </div>
     </div>
 
@@ -63,7 +66,7 @@ export default defineComponent({
       return [
         {
           category: 'test',
-          title: 'Pruebas',
+          title: this.$t('categories.tests'),
           icon: 'F0668',
           total: this.getCovidData?.tests || 0,
           color: 'amber-8',
@@ -71,7 +74,7 @@ export default defineComponent({
         },
         {
           category: 'recovered',
-          title: 'Recuperados',
+          title: this.$t('categories.recovered'),
           icon: 'F08D0',
           total: this.getCovidData?.recovered || 0,
           color: 'green',
@@ -79,7 +82,7 @@ export default defineComponent({
         },
         {
           category: 'active',
-          title: 'Activos',
+          title: this.$t('categories.actives'),
           icon: 'F0849',
           total: this.getCovidData?.active || 0,
           color: 'blue-7',
@@ -87,7 +90,7 @@ export default defineComponent({
         },
         {
           category: 'deaths',
-          title: 'Fallecidos',
+          title: this.$t('categories.deceased'),
           icon: 'F0B7F',
           total: this.getCovidData?.deaths || 0,
           color: 'red',

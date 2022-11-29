@@ -7,7 +7,7 @@
     <q-card style="width: 700px; max-width: 80vw;">
       <q-card-section class="row justify-between">
         <p class="q-ma-none text-h5">
-          {{ title }}
+          {{ title | capitalizeFirstLetter }}
         </p>
         <q-btn
           flat
@@ -26,7 +26,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'DialogHistoricalChart',
@@ -51,7 +50,7 @@ export default defineComponent({
   },
 
   mounted () {
-    EventBus.$on('showDialogHistoricalChart', (data: any): void => {
+    this.$root.$on('showDialogHistoricalChart', (data: any): void => {
       this.showDialog = data.show
       this.title = data.title
       this.categoryCard = data.categoryCard
