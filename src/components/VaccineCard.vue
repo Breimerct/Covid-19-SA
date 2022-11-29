@@ -5,7 +5,7 @@
   >
     <q-card-section class="flex justify-between">
       <p class="q-ma-none text-h6 text-weight-medium">
-        Vacunados
+        {{ $t('categories.vaccinated').toString() | capitalizeFirstLetter }}
       </p>
       <q-skeleton
         size="35px"
@@ -37,14 +37,10 @@
 </template>
 
 <script lang="ts">
-import mixinFilters from '../mixins/filterMixin'
-import EventBus from '../helpers/EventBus'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'VaccineCard',
-
-  mixins: [mixinFilters],
 
   computed: {
     ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
@@ -56,9 +52,9 @@ export default {
 
   methods: {
     showDialogChart (): void {
-      EventBus.$emit('showDialogHistoricalChart', {
+      this.$root.$emit('showDialogHistoricalChart', {
         show: true,
-        title: 'Vacunados',
+        title: this.$t('categories.vaccinated'),
         categoryCard: 'vaccines'
       })
     }

@@ -6,7 +6,7 @@
   >
     <q-card-section class="flex justify-between flex-center q-pt-sm q-px-none">
       <p class="q-ma-none text-h6 text-weight-medium">
-        {{ title }}
+        {{ title | capitalizeFirstLetter }}
       </p>
       <q-btn
         flat
@@ -33,15 +33,11 @@
 </template>
 
 <script lang="ts">
-import mixinFilters from 'src/mixins/filterMixin'
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import EventBus from 'src/helpers/EventBus'
 
 export default defineComponent({
   name: 'CovidCard',
-
-  mixins: [mixinFilters],
 
   props: {
     category: {
@@ -90,7 +86,7 @@ export default defineComponent({
 
   methods: {
     showDialogChart (): void {
-      EventBus.$emit('showDialogHistoricalChart', {
+      this.$root.$emit('showDialogHistoricalChart', {
         show: true,
         title: this.title,
         categoryCard: this.category
