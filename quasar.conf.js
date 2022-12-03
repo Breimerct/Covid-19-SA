@@ -81,7 +81,7 @@ module.exports = configure(function (/* ctx */) {
       chainWebpack (/* chain */) {},
 
       env: {
-        apiUrl: process.env.API_URL
+        API_URL: process.env.API_URL
       }
     },
 

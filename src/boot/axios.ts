@@ -8,7 +8,7 @@ declare module 'vue/types/vue' {
 }
 
 const httpClient = axios.create({
-  baseURL: process.env.apiUrl
+  baseURL: process.env.API_URL
 })
 
 export {
