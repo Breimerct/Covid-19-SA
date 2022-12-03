@@ -10,7 +10,6 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers')
-require('dotenv').config()
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -34,7 +33,8 @@ module.exports = configure(function (/* ctx */) {
       'i18n',
       'axios',
       'apexChart',
-      'filters'
+      'filters',
+      'loadingBar'
     ],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -58,7 +58,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // transpile: false,
 
@@ -80,9 +80,7 @@ module.exports = configure(function (/* ctx */) {
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
       chainWebpack (/* chain */) {},
 
-      env: {
-        apiUrl: process.env.API_URL
-      }
+      env: require('dotenv').config().parsed
     },
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -112,6 +110,7 @@ module.exports = configure(function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
+        'LoadingBar',
         'Loading',
         'Dialog',
         'Notify'
