@@ -109,6 +109,7 @@ module.exports = configure(function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
+        'LoadingBar',
         'Loading',
         'Dialog',
         'Notify'
