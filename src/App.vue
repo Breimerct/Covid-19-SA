@@ -8,10 +8,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'App',
-
-  mounted () {
-    console.log(process.env.API_URL)
-  }
+  name: 'App'
 })
 </script>

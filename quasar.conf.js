@@ -33,7 +33,8 @@ module.exports = configure(function (/* ctx */) {
       'i18n',
       'axios',
       'apexChart',
-      'filters'
+      'filters',
+      'loadingBar'
     ],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
