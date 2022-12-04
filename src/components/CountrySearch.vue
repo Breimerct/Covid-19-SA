@@ -51,25 +51,12 @@ export default defineComponent({
 
   watch: {
     countrySelected (value: ICountriesOptions): void {
+      this.$refs.countrySearchSelect.blur()
       this.setHistoricalData(null)
       this.setCountrySelected(value)
       this.fetchCountryData(value.value)
-      this.$refs.countrySearchSelect.blur()
-
-      if (
-        !value.value.includes('french') &&
-        !value.value.includes('south')
-      ) {
-        this.fetchVaccineData(value.value)
-      }
-
-      if (
-        !value.value.includes('french') &&
-        !value.value.includes('south') &&
-        !value.value.includes('falkland')
-      ) {
-        this.fetchCategoriesHistoricalData(value.value)
-      }
+      this.handleValidationFetchData(value.value)
+      localStorage.setItem('country', value.value)
     }
   },
 
@@ -79,10 +66,36 @@ export default defineComponent({
       'fetchVaccineData',
       'fetchCategoriesHistoricalData'
     ]),
-    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData'])
+
+    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData']),
+
+    handleValidationFetchData (country: string): void {
+      if (
+        !country.includes('french') &&
+        !country.includes('south')
+      ) {
+        this.fetchVaccineData(country)
+      }
+      if (
+        !country.includes('french') &&
+        !country.includes('south') &&
+        !country.includes('falkland')
+      ) {
+        this.fetchCategoriesHistoricalData(country)
+      }
+    },
+
+    getCountryByLocalStorage () {
+      const storeCountry = localStorage.getItem('country')
+
+      if (storeCountry) {
+        this.countrySelected = util.getOneCountry(storeCountry)
+      }
+    }
   },
 
   mounted () {
+    this.getCountryByLocalStorage()
     this.fetchCountryData(this.countrySelected.value)
   }
 })

@@ -37,8 +37,8 @@ export default defineComponent({
 
     getChartOptions (): any {
       const countries = Object.values<ICountriesOptions>(util.getCountryItems())
+        .filter(country => country.value !== 'south america')
         .map(country => ((country.shortName || '').toUpperCase()))
-      countries.shift()
 
       return {
         colors: ['#ffa000'],
