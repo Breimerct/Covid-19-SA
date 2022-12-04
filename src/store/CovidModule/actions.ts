@@ -24,9 +24,11 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
   async fetchTestChartData ({ commit }): Promise<void> {
     try {
       Loading.show()
-      const countries = Util.getCountryItems().map(country => country.value)
-      countries.shift()
-      const { data } = await httpClient.get<ICovidData[]>(`/countries/${countries.join(',')}`)
+      const countries = Util.getCountryItems()
+        .filter(country => country.value !== 'south america')
+        .map(country => country.value)
+        .join(',')
+      const { data } = await httpClient.get<ICovidData[]>(`/countries/${countries}`)
       commit('setTestChartData', [{
         name: i18n.t('categories.tests'),
         data: data.map(val => val.tests)

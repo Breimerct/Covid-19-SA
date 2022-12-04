@@ -116,6 +116,10 @@ const util = {
     return util.getCountryItems().filter(country => country.value === 'south america')[0]
   },
 
+  getOneCountry (_country):ICountriesOptions {
+    return util.getCountryItems().find(country => country.value === _country)
+  },
+
   formatNumber (value: number): string {
     try {
       const dot = '.'
