@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { ICategory } from 'src/models/models'
 
 export default defineComponent({
@@ -100,7 +100,36 @@ export default defineComponent({
     }
   },
 
-  methods: {}
+  watch: {
+    '$i18n.locale' (): void {
+      if (this.getCountrySelected.value.includes('south')) {
+        this.fetchTestChartData(this.getCountrySelected.value)
+      }
+
+      if (
+        !this.getCountrySelected.value.includes('french') &&
+        !this.getCountrySelected.value.includes('south')
+      ) {
+        this.fetchVaccineData(this.getCountrySelected.value)
+      }
+
+      if (
+        !this.getCountrySelected.value.includes('french') &&
+        !this.getCountrySelected.value.includes('south') &&
+        !this.getCountrySelected.value.includes('falkland')
+      ) {
+        this.fetchCategoriesHistoricalData(this.getCountrySelected.value)
+      }
+    }
+  },
+
+  methods: {
+    ...mapActions('covidModule', [
+      'fetchTestChartData',
+      'fetchVaccineData',
+      'fetchCategoriesHistoricalData'
+    ])
+  }
 })
 </script>
 <style lang="scss" scoped>
