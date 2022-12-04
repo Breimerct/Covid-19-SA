@@ -1,8 +1,11 @@
 <template>
   <q-card
-    class="category-card text-white non-selectable q-px-sm flex column justify-between"
-    :class="[`bg-${color}`]"
-    :style="`--icon: '\\${icon}'`"
+    class="category-card non-selectable q-px-sm flex column justify-between"
+    :class="{
+      [`bg-grey-10 text-${color}`]: isDark,
+      [`bg-${color} text-white`]: !isDark
+    }"
+    :style="`--icon: '\\${icon}'; --opacity: ${opacity}`"
   >
     <q-card-section class="flex justify-between flex-center q-pt-sm q-px-none">
       <p class="q-ma-none text-h6 text-weight-medium">
@@ -81,6 +84,14 @@ export default defineComponent({
         (!this.getCountrySelected?.value.includes('french')) &&
         (!this.getCountrySelected?.value.includes('falkland'))
       )
+    },
+
+    opacity (): string {
+      return this.$q.dark.isActive ? '0.04' : '0.2'
+    },
+
+    isDark (): boolean | any {
+      return this.$q.dark.isActive
     }
   },
 

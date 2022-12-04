@@ -1,7 +1,12 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-grey-3 text-black">
+      <q-toolbar
+        :class="{
+          'bg-grey-3 text-black': !$q.dark.isActive,
+          'bg-dark text-white': $q.dark.isActive
+        }"
+      >
         <q-toolbar-title class="flex content-center">
           <q-icon size="md" class="q-mr-sm">
             <q-img src="../assets/covid-icon.svg" alt="Covid-19 SA Logo"/>
@@ -24,6 +29,7 @@
               <q-item>
                 <q-item-section>
                   <q-btn
+                    rounded
                     outline
                     color="primary"
                     :label="$t('changeLang')"
@@ -32,6 +38,23 @@
                     <q-icon class="q-ml-md">
                       <q-img :src="getLanguageFlag"/>
                     </q-icon>
+                  </q-btn>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-btn
+                    outline
+                    rounded
+                    color="primary"
+                    :label="$t('changeTheme')"
+                    @click="themeToggle"
+                  >
+                    <q-icon
+                      class="q-ml-md"
+                      size="sm"
+                      :name="$q.dark.isActive ? 'eva-sun-outline' : 'eva-moon-outline'"
+                    />
                   </q-btn>
                 </q-item-section>
               </q-item>
@@ -54,6 +77,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapActions } from 'vuex'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -69,6 +93,8 @@ export default defineComponent({
   },
 
   methods: {
+    ...mapActions(['themeToggle']),
+
     changeLang () {
       if (this.$i18n.locale === 'es-es') {
         this.$i18n.locale = 'en-us'

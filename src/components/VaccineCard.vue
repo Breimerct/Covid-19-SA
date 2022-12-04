@@ -1,7 +1,12 @@
 <template>
   <q-card
-    class="category-card bg-indigo-6 text-white non-selectable column justify-between"
+    class="category-card non-selectable column justify-between"
+    :class="{
+      'bg-indigo-6 text-white': !isDark,
+      'bg-grey-10 text-indigo-6': isDark
+    }"
     style="--icon: '\F0391';"
+    :style="`--opacity: ${opacity}`"
   >
     <q-card-section class="flex justify-between">
       <p class="q-ma-none text-h6 text-weight-medium">
@@ -47,6 +52,14 @@ export default {
 
     vaccineData (): number {
       return parseInt(this.getCovidData.vaccine) || 0
+    },
+
+    isDark (): boolean | any {
+      return this.$q.dark.isActive
+    },
+
+    opacity (): string {
+      return this.isDark ? '0.04' : '0.2'
     }
   },
 

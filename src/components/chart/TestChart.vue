@@ -1,5 +1,11 @@
 <template>
-  <q-card class="bg-grey-4" v-if="getTestChartData">
+  <q-card
+    v-if="getTestChartData"
+    :class="{
+      'bg-grey-4': !$q.dark.isActive,
+      'bg-grey-10': $q.dark.isActive
+    }"
+  >
     <q-card-section>
       <vue-apex-charts
         type="bar"
@@ -42,6 +48,8 @@ export default defineComponent({
           }
         },
         tooltip: {
+          enabled: true,
+          theme: this.$q.dark.isActive ? 'dark' : 'light',
           y: {
             title: {
               formatter: (seriesName: string): string => util.capitalizeFirstLetter(seriesName)
@@ -52,14 +60,14 @@ export default defineComponent({
           text: this.$t('configChart.testsPerformed'),
           align: 'center',
           style: {
-            color: '#000',
+            color: this.$q.dark.isActive ? '#fff' : '#000',
             fontSize: '20px',
             fontFamily: 'Roboto',
             fontWeight: 'medium'
           }
         },
         grid: {
-          borderColor: '#000',
+          borderColor: this.$q.dark.isActive ? '#fff' : '#000',
           strokeDashArray: 0,
           xaxis: {
             lines: {
@@ -75,7 +83,7 @@ export default defineComponent({
           labels: {
             show: true,
             style: {
-              colors: '#000',
+              colors: this.$q.dark.isActive ? '#fff' : '#000',
               fontSize: '13px',
               fontFamily: 'Roboto',
               fontWeight: 300
@@ -86,7 +94,7 @@ export default defineComponent({
           labels: {
             show: !this.$q.platform.is.mobile,
             style: {
-              color: ['#000'],
+              colors: this.$q.dark.isActive ? '#fff' : '#000',
               fontFamily: 'Roboto',
               fontSize: '12px',
               fontWeight: 400
