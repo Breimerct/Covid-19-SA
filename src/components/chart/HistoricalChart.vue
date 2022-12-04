@@ -110,7 +110,7 @@ export default defineComponent({
         },
         yaxis: {
           labels: {
-            show: !this.$q.platform.is.mobile,
+            show: true,
             style: {
               colors: this.$q.dark.isActive ? '#fff' : '#000',
               fontFamily: 'Roboto',

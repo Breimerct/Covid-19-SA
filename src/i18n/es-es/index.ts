@@ -7,6 +7,7 @@ export default {
   changeLang: 'cambiar idioma',
   changeTheme: 'cambiar tema',
   profession: 'web app desarollador',
+  share: 'compartir',
   categories: {
     confirmed: 'Confirmados',
     tests: 'pruebas',
