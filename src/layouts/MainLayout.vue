@@ -103,6 +103,8 @@ export default defineComponent({
         this.$i18n.locale = 'es-es'
         this.$i18n.fallbackLocale = 'es-es'
       }
+
+      localStorage.setItem('lang', this.$i18n.locale)
     }
   }
 

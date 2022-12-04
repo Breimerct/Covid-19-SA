@@ -12,6 +12,7 @@ export default defineComponent({
 
   mounted () {
     this.$q.dark.set(JSON.parse(localStorage.getItem('darkMode')))
+    this.$i18n.locale = localStorage.getItem('lang')
   }
 })
 </script>
