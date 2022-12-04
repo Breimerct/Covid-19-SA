@@ -33,6 +33,7 @@ import { defineComponent } from 'vue'
 import { ICountriesOptions } from '../models/models'
 import { mapActions, mapMutations } from 'vuex'
 import util from 'src/helpers/Util'
+import { analytics, logEvent } from 'boot/firebase'
 
 export default defineComponent({
   name: 'CountrySearch',
@@ -57,6 +58,10 @@ export default defineComponent({
       this.fetchCountryData(value.value)
       this.handleValidationFetchData(value.value)
       localStorage.setItem('country', value.value)
+
+      logEvent(analytics, 'select_item', {
+        name: value.value
+      })
     }
   },
 

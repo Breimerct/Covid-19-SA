@@ -34,7 +34,8 @@ module.exports = configure(function (/* ctx */) {
       'axios',
       'apexChart',
       'filters',
-      'loadingBar'
+      'loadingBar',
+      'firebase'
     ],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

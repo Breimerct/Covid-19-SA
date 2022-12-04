@@ -1,5 +1,5 @@
 <template>
-  <vue-apex-charts
+  <apex-chart
     type="area"
     :options="chartOptions"
     :series="getChartData"
@@ -21,10 +21,6 @@ export default defineComponent({
       require: true,
       default: ''
     }
-  },
-
-  components: {
-    VueApexCharts: () => import('vue-apexcharts')
   },
 
   computed: {

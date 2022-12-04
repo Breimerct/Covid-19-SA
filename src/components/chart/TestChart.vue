@@ -7,7 +7,7 @@
     }"
   >
     <q-card-section>
-      <vue-apex-charts
+      <apex-chart
         type="bar"
         height="350"
         width="100%"
@@ -27,10 +27,6 @@ import { ICountriesOptions } from 'src/models/models'
 
 export default defineComponent({
   name: 'TestChart',
-
-  components: {
-    VueApexCharts: () => import('vue-apexcharts')
-  },
 
   computed: {
     ...mapGetters('covidModule', ['getTestChartData']),
