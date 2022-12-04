@@ -8,6 +8,7 @@ export default {
   changeTheme: 'cambiar tema',
   profession: 'web app desarollador',
   share: 'compartir',
+  shareText: 'Reporte estadístico de COVID-19 en Sur América',
   categories: {
     confirmed: 'Confirmados',
     tests: 'pruebas',

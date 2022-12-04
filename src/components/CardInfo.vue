@@ -106,7 +106,7 @@ export default {
       await Share.share({
         url: '',
         title: this.$t('nameApp'),
-        text: 'Reporte Estadístico de COVID-19 en Sur America',
+        text: this.$t('shareText'),
         dialogTitle: this.$t('nameApp')
       })
     }
