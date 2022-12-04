@@ -53,7 +53,7 @@ export default defineComponent({
   components: {
     DialogHistoricalChart: () => import('components/DialogHistoricalChart.vue'),
     VaccineCard: () => import('components/VaccineCard.vue'),
-    TestChart: () => import('components/TestChart.vue'),
+    TestChart: () => import('components/chart/TestChart.vue'),
     CovidCard: () => import('components/CovidCard.vue'),
     TotalCasesCard: () => import('components/TotalCasesCard.vue'),
     CountrySearch: () => import('components/CountrySearch.vue')

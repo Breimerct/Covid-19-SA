@@ -1,7 +1,12 @@
 <template>
   <q-card
-    class="custom-card text-white bg-cyan-6 q-pa-sm non-selectable"
+    class="custom-card q-pa-sm non-selectable"
+    :class="{
+      'bg-cyan-6 text-white': !isDark,
+      'bg-grey-10 text-cyan-6': isDark
+    }"
     style="--icon: '\F13B6';"
+    :style="`--opacity: ${opacity}`"
     v-if="getCovidData"
   >
     <q-card-section class="q-pa-none">
@@ -79,6 +84,14 @@ export default defineComponent({
         (!this.getCountrySelected?.value.includes('french')) &&
         (!this.getCountrySelected?.value.includes('falkland'))
       )
+    },
+
+    isDark (): boolean | any {
+      return this.$q.dark.isActive
+    },
+
+    opacity (): number {
+      return this.isDark ? 0.04 : 0.2
     }
   },
 

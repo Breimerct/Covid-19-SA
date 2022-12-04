@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <router-view />
+    <router-view/>
   </div>
 </template>
 
@@ -8,6 +8,10 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+
+  mounted () {
+    this.$q.dark.set(JSON.parse(localStorage.getItem('darkMode')))
+  }
 })
 </script>

@@ -5,6 +5,8 @@ export default {
   increment: 'increment',
   selectCountry: 'Select a country',
   changeLang: 'change language',
+  changeTheme: 'change theme',
+  profession: 'web app developer',
   categories: {
     confirmed: 'confirmed',
     tests: 'tests',

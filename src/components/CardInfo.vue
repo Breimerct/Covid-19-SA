@@ -12,12 +12,18 @@
         </q-avatar>
       </div>
     </q-card-section>
-    <q-card-section class="q-py-none text-center">
-      <p class="text-h6 q-ma-none text-grey-8">
+    <q-card-section
+      class="q-py-none text-center"
+      :class="{
+        'text-grey-8': !isDark,
+        'text-white': isDark
+      }"
+    >
+      <p class="text-h6 q-ma-none">
         Breimer Correa Torres
       </p>
-      <p class="text-caption q-ma-none text-grey-8">
-        Web App Desarollador
+      <p class="text-caption q-ma-none text-capitalize">
+        {{ $t('profession') }}
       </p>
     </q-card-section>
     <q-card-actions align="center" class="q-pb-sm">
@@ -63,6 +69,12 @@ export default {
       }
     ]
   }),
+
+  computed: {
+    isDark (): boolean | any {
+      return this.$q.dark.isActive
+    }
+  },
 
   methods: {
     openLink (url): void {

@@ -64,7 +64,7 @@ export default defineComponent({
           }
         },
         grid: {
-          borderColor: '#000',
+          borderColor: this.$q.dark.isActive ? '#fff' : '#000',
           strokeDashArray: 0,
           xaxis: {
             lines: {
@@ -79,13 +79,14 @@ export default defineComponent({
           text: this.$t('configChart.statisticsPerDay'),
           align: 'center',
           style: {
-            color: '#000',
+            color: this.$q.dark.isActive ? '#fff' : '#000',
             fontSize: '20px',
             fontFamily: 'Roboto',
             fontWeight: 'medium'
           }
         },
         tooltip: {
+          theme: this.$q.dark.isActive ? 'dark' : 'light',
           x: {
             format: 'dd MMM yyyy'
           },
@@ -96,13 +97,22 @@ export default defineComponent({
           }
         },
         xaxis: {
-          type: 'datetime'
-        },
-        yaxis: {
+          type: 'datetime',
           labels: {
             show: true,
             style: {
-              color: ['#000'],
+              colors: this.$q.dark.isActive ? '#fff' : '#000',
+              fontSize: '13px',
+              fontFamily: 'Roboto',
+              fontWeight: 300
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            show: !this.$q.platform.is.mobile,
+            style: {
+              colors: this.$q.dark.isActive ? '#fff' : '#000',
               fontFamily: 'Roboto',
               fontSize: '12px',
               fontWeight: 400
