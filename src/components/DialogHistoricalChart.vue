@@ -5,10 +5,10 @@
     :full-width="isMobile"
   >
     <q-card
-      style="width: 700px; max-width: 80vw;"
+      style="width: 700px; max-width: 85vw;"
       :class="{
         'bg-grey-3': !isDark,
-        'bg-grey-10': isDark
+        'bg-grey-10': isDark,
       }"
     >
       <q-card-section class="row justify-between">
@@ -24,7 +24,7 @@
           icon="close"
         />
       </q-card-section>
-      <q-card-section>
+      <q-card-section class="section-chart">
         <historical-chart :category="categoryCard"/>
       </q-card-section>
     </q-card>
@@ -71,5 +71,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-
+.section-chart {
+  overflow: hidden;
+}
 </style>
