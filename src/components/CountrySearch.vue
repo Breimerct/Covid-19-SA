@@ -8,15 +8,19 @@
       ref="countrySearchSelect"
       v-model="countrySelected"
       :options="countryItems"
-      :label="$t('selectCountry')"
+      :label="t('selectCountry')"
+      option-label="label"
+      option-value="value"
     >
       <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+        <q-item 
+          v-bind="scope.itemProps"
+        >
           <q-item-section avatar>
             <q-img :src="scope.opt.flag" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ scope.opt.label | capitalize }}</q-item-label>
+            <q-item-label>{{ capitalize(scope.opt.label) }}</q-item-label>
           </q-item-section>
         </q-item>
       </template>
@@ -29,68 +33,77 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useCovidStore } from 'stores/covid'
 import { ICountriesOptions } from '../models/models'
-import { mapActions, mapMutations } from 'vuex'
 import util from 'src/helpers/Util'
-import { analytics, logEvent } from 'boot/firebase'
+// import { analytics, logEvent } from 'boot/firebase'
+import { capitalize } from 'src/helpers/formatters'
 
 export default defineComponent({
   name: 'CountrySearch',
 
-  data: (): {
-    countrySelected: ICountriesOptions
-  } => ({
-    countrySelected: util.getSouthAmerica()
-  }),
+  setup() {
+    const { t } = useI18n()
+    const covidStore = useCovidStore()
+    
+    const countrySearchSelect = ref<any>(null)
+    const countrySelected = ref<ICountriesOptions>(util.getSouthAmerica())
 
-  computed: {
-    countryItems (): ICountriesOptions[] {
+    const countryItems = computed((): ICountriesOptions[] => {
       return Object.values<ICountriesOptions>(util.getCountryItems())
-    }
-  },
+    })
 
-  watch: {
-    countrySelected (value: ICountriesOptions): void {
-      this.$refs.countrySearchSelect.blur()
-      this.setHistoricalData(null)
-      this.setCountrySelected(value)
-      this.fetchCountryData(value.value)
-      this.handleValidationFetchData(value.value)
-      localStorage.setItem('country', value.value)
-
-      logEvent(analytics, 'select_item', {
-        name: value.value
-      })
-    }
-  },
-
-  methods: {
-    ...mapActions('covidModule', ['fetchCountryData', 'fetchVaccineData', 'fetchCategoriesHistoricalData']),
-
-    ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData']),
-
-    handleValidationFetchData (country: string): void {
+    function handleValidationFetchData(country: string): void {
       if (!country.includes('french') && !country.includes('south')) {
-        this.fetchVaccineData(country)
+        covidStore.fetchVaccineData(country)
       }
       if (!country.includes('french') && !country.includes('south') && !country.includes('falkland')) {
-        this.fetchCategoriesHistoricalData(country)
+        covidStore.fetchCategoriesHistoricalData(country)
       }
-    },
+    }
 
-    getCountryByLocalStorage () {
+    function getCountryByLocalStorage() {
       const storeCountry = localStorage.getItem('country')
 
       if (storeCountry) {
-        this.countrySelected = util.getOneCountry(storeCountry)
+        countrySelected.value = util.getOneCountry(storeCountry)
       }
     }
-  },
 
-  mounted () {
-    this.getCountryByLocalStorage()
-    this.fetchCountryData(this.countrySelected.value)
+    // Watch for country selection changes
+    watch(countrySelected, (value: ICountriesOptions) => {
+      if (countrySearchSelect.value) {
+        countrySearchSelect.value.blur()
+      }
+      
+      covidStore.setHistoricalData(null)
+      covidStore.setCountrySelected(value)
+      covidStore.fetchCountryData(value.value)
+      handleValidationFetchData(value.value)
+      localStorage.setItem('country', value.value)
+
+      // Log analytics event only if analytics is available
+      // if (analytics) {
+      //   logEvent(analytics, 'select_item', {
+      //     name: value.value
+      //   })
+      // }
+    })
+
+    onMounted(() => {
+      getCountryByLocalStorage()
+      covidStore.fetchCountryData(countrySelected.value.value)
+    })
+
+    return {
+      countrySearchSelect,
+      countrySelected,
+      countryItems,
+      capitalize,
+      t
+    }
   }
 })
 </script>

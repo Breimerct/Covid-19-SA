@@ -15,7 +15,7 @@ export default store(function (/* { ssrContext } */) {
       commonModule
     },
     actions: {
-      themeToggle () {
+      themeToggle() {
         if (Dark.isActive) {
           Dark.set(false)
         } else {

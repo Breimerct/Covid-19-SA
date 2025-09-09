@@ -3,14 +3,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
+import { useThemeStore } from 'stores/theme'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'App',
 
-  mounted () {
-    this.$q.dark.set(JSON.parse(localStorage.getItem('darkMode')))
-    this.$i18n.locale = localStorage.getItem('lang')
+  setup() {
+    const themeStore = useThemeStore()
+    const { locale } = useI18n()
+
+    onMounted(() => {
+      themeStore.initTheme()
+      const savedLang = localStorage.getItem('lang')
+      if (savedLang) {
+        locale.value = savedLang
+      }
+    })
+
+    return {}
   }
 })
 </script>

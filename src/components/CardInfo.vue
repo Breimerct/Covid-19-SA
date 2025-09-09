@@ -77,17 +77,17 @@ export default {
   }),
 
   computed: {
-    isDark (): boolean {
+    isDark(): boolean {
       return Boolean(this.$q.dark.isActive)
     }
   },
 
   methods: {
-    openLink (url: string): void {
+    openLink(url: string): void {
       window.open(url, '_blank')
     },
 
-    async shareApp (): Promise<void> {
+    async shareApp(): Promise<void> {
       await Share.share({
         url: '',
         title: this.$t('nameApp'),

@@ -14,6 +14,12 @@ export interface ICategory {
   today: number
 }
 
+export interface ICategories {
+  name: string
+  data: [number, number][]
+  color: string
+}
+
 export interface ISocial {
   url: string
   icon: string

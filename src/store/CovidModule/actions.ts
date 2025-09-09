@@ -8,7 +8,7 @@ import Util from 'src/helpers/Util'
 import { i18n } from 'boot/i18n'
 
 const actions: ActionTree<CovidStateInterface, StateInterface> = {
-  async fetchCountryData ({ commit }, payload: string): Promise<void> {
+  async fetchCountryData({ commit }, payload: string): Promise<void> {
     try {
       const endpoint = payload === 'south america' ? 'continents' : 'countries'
       Loading.show()
@@ -21,7 +21,7 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     }
   },
 
-  async fetchTestChartData ({ commit }): Promise<void> {
+  async fetchTestChartData({ commit }): Promise<void> {
     try {
       Loading.show()
       const countries = Util.getCountryItems()
@@ -42,7 +42,7 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     }
   },
 
-  async fetchVaccineData ({ state, commit }, country: string): Promise<void> {
+  async fetchVaccineData({ state, commit }, country: string): Promise<void> {
     try {
       Loading.show()
       const { data } = await httpClient.get(`/vaccine/coverage/countries/${country}/`, {
@@ -75,7 +75,7 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     }
   },
 
-  async fetchCategoriesHistoricalData ({ state, commit }, payload: string) {
+  async fetchCategoriesHistoricalData({ state, commit }, payload: string) {
     try {
       Loading.show()
       const { data } = await httpClient.get<IHistoricalData>(`/historical/${payload}/`, {

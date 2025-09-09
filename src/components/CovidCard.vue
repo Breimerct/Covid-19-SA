@@ -9,7 +9,7 @@
   >
     <q-card-section class="flex justify-between flex-center q-pt-sm q-px-none">
       <p class="q-ma-none text-h6 text-weight-medium">
-        {{ title | capitalizeFirstLetter }}
+        {{ capitalizeFirstLetter(title) }}
       </p>
       <q-btn flat dense icon="mdi-chart-box-outline" v-if="validateVisibleHistoricalButton" @click="showDialogChart" />
     </q-card-section>
@@ -18,9 +18,9 @@
       <div class="row">
         <div class="col-12">
           <p class="q-ma-none text-h5 text-right text-weight-light">
-            {{ total | formatNumber }}
+            {{ formatNumber(total) }}
           </p>
-          <p class="q-ma-none text-italic text-right">+ {{ today || 0 | formatNumber }}</p>
+          <p class="q-ma-none text-italic text-right">+ {{ formatNumber(today || 0) }}</p>
         </div>
       </div>
     </q-card-section>
@@ -28,8 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { defineComponent, computed } from 'vue'
+import { useQuasar } from 'quasar'
+import { useCovidStore } from 'stores/covid'
+import { capitalizeFirstLetter, formatNumber } from 'src/helpers/formatters'
 
 export default defineComponent({
   name: 'CovidCard',
@@ -37,63 +39,76 @@ export default defineComponent({
   props: {
     category: {
       type: String,
-      require: true
+      required: true
     },
     title: {
       type: String,
-      require: true
+      required: true
     },
     color: {
       type: String,
-      require: true
+      required: true
     },
     icon: {
       type: String,
-      require: true
+      required: true
     },
     total: {
       type: Number,
-      require: true
+      required: true
     },
     today: {
       type: Number,
-      require: true
+      required: true
     },
     index: {
       type: Number,
-      require: true
+      required: true
     }
   },
 
-  computed: {
-    ...mapGetters('covidModule', ['getCountrySelected', 'getHistoricalData']),
+  emits: ['showChart'],
 
-    validateVisibleHistoricalButton (): boolean {
+  setup(props, { emit }) {
+    const $q = useQuasar()
+    const covidStore = useCovidStore()
+
+    const validateVisibleHistoricalButton = computed((): boolean => {
+      const countrySelected = covidStore.getCountrySelected
       return (
-        this.index !== 0 &&
-        this.index !== 2 &&
-        !this.getCountrySelected?.value.includes('south') &&
-        !this.getCountrySelected?.value.includes('french') &&
-        !this.getCountrySelected?.value.includes('falkland')
+        props.index !== 0 &&
+        props.index !== 2 &&
+        !countrySelected?.value.includes('south') &&
+        !countrySelected?.value.includes('french') &&
+        !countrySelected?.value.includes('falkland')
       )
-    },
+    })
 
-    opacity (): string {
-      return this.$q.dark.isActive ? '0.04' : '0.2'
-    },
+    const opacity = computed((): string => {
+      return $q.dark.isActive ? '0.04' : '0.2'
+    })
 
-    isDark (): boolean {
-      return Boolean(this.$q.dark.isActive)
-    }
-  },
+    const isDark = computed((): boolean => {
+      return Boolean($q.dark.isActive)
+    })
 
-  methods: {
-    showDialogChart (): void {
-      this.$root.$emit('showDialogHistoricalChart', {
+    function showDialogChart(): void {
+      emit('showChart', {
         show: true,
-        title: this.title,
-        categoryCard: this.category
+        title: props.title,
+        categoryCard: props.category
       })
+    }
+
+    return {
+      getCountrySelected: covidStore.getCountrySelected,
+      getHistoricalData: covidStore.getHistoricalData,
+      validateVisibleHistoricalButton,
+      opacity,
+      isDark,
+      capitalizeFirstLetter,
+      formatNumber,
+      showDialogChart
     }
   }
 })

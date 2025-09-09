@@ -3,8 +3,9 @@ import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
 export const i18n = createI18n({
-  locale: 'es-ES',
-  fallbackLocale: 'es-ES',
+  locale: 'es-es',
+  fallbackLocale: 'es-es',
+  legacy: false, // Use Composition API mode
   globalInjection: true,
   messages
 })

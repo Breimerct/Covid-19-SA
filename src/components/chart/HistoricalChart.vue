@@ -1,10 +1,12 @@
 <template>
-  <apex-chart type="area" :options="chartOptions" :series="getChartData" height="550" />
+  <apexchart type="area" :options="chartOptions" :series="getChartData" height="550" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { defineComponent, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useQuasar } from 'quasar'
+import { useCovidStore } from 'stores/covid'
 import Util from 'src/helpers/Util'
 
 export default defineComponent({
@@ -13,27 +15,30 @@ export default defineComponent({
   props: {
     category: {
       type: String,
-      require: true,
+      required: true,
       default: ''
     }
   },
 
-  computed: {
-    ...mapGetters('covidModule', ['getHistoricalData']),
+  setup(props) {
+    const { t, locale } = useI18n()
+    const $q = useQuasar()
+    const covidStore = useCovidStore()
 
-    getChartData (): any {
-      return this.getHistoricalData[this.category]
-    },
+    const getChartData = computed(() => {
+      const historicalData = covidStore.getHistoricalData
+      return historicalData ? historicalData[props.category] : null
+    })
 
-    chartOptions (): any {
+    const chartOptions = computed(() => {
       return {
         colors: ['#000'],
         chart: {
-          defaultLocale: this.$i18n.locale,
+          defaultLocale: locale.value,
           locales: [
             {
-              name: this.$i18n.locale,
-              options: this.$t('configChart.locales')
+              name: locale.value,
+              options: t('configChart.locales')
             }
           ],
           toolbar: {
@@ -57,7 +62,7 @@ export default defineComponent({
           }
         },
         grid: {
-          borderColor: this.$q.dark.isActive ? '#fff' : '#000',
+          borderColor: $q.dark.isActive ? '#fff' : '#000',
           strokeDashArray: 0,
           xaxis: {
             lines: {
@@ -69,17 +74,17 @@ export default defineComponent({
           enabled: false
         },
         title: {
-          text: this.$t('configChart.statisticsPerDay'),
+          text: t('configChart.statisticsPerDay'),
           align: 'center',
           style: {
-            color: this.$q.dark.isActive ? '#fff' : '#000',
+            color: $q.dark.isActive ? '#fff' : '#000',
             fontSize: '20px',
             fontFamily: 'Roboto',
             fontWeight: 'medium'
           }
         },
         tooltip: {
-          theme: this.$q.dark.isActive ? 'dark' : 'light',
+          theme: $q.dark.isActive ? 'dark' : 'light',
           x: {
             format: 'dd MMM yyyy'
           },
@@ -94,7 +99,7 @@ export default defineComponent({
           labels: {
             show: true,
             style: {
-              colors: this.$q.dark.isActive ? '#fff' : '#000',
+              colors: $q.dark.isActive ? '#fff' : '#000',
               fontSize: '13px',
               fontFamily: 'Roboto',
               fontWeight: 300
@@ -105,7 +110,7 @@ export default defineComponent({
           labels: {
             show: true,
             style: {
-              colors: this.$q.dark.isActive ? '#fff' : '#000',
+              colors: $q.dark.isActive ? '#fff' : '#000',
               fontFamily: 'Roboto',
               fontSize: '12px',
               fontWeight: 400
@@ -116,6 +121,11 @@ export default defineComponent({
           }
         }
       }
+    })
+
+    return {
+      getChartData,
+      chartOptions
     }
   }
 })

@@ -7,24 +7,28 @@
     }"
   >
     <q-card-section>
-      <apex-chart type="bar" height="350" width="100%" :options="getChartOptions" :series="getTestChartData" />
+      <apexchart type="bar" height="350" width="100%" :options="getChartOptions" :series="getTestChartData" />
     </q-card-section>
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { defineComponent, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useQuasar } from 'quasar'
+import { useCovidStore } from 'stores/covid'
 import util from 'src/helpers/Util'
 import { ICountriesOptions } from 'src/models/models'
 
 export default defineComponent({
   name: 'TestChart',
 
-  computed: {
-    ...mapGetters('covidModule', ['getTestChartData']),
+  setup() {
+    const { t } = useI18n()
+    const $q = useQuasar()
+    const covidStore = useCovidStore()
 
-    getChartOptions (): any {
+    const getChartOptions = computed((): any => {
       const countries = Object.values<ICountriesOptions>(util.getCountryItems())
         .filter(country => country.value !== 'south america')
         .map(country => (country.shortName || '').toUpperCase())
@@ -38,7 +42,7 @@ export default defineComponent({
         },
         tooltip: {
           enabled: true,
-          theme: this.$q.dark.isActive ? 'dark' : 'light',
+          theme: $q.dark.isActive ? 'dark' : 'light',
           y: {
             title: {
               formatter: (seriesName: string): string => util.capitalizeFirstLetter(seriesName)
@@ -46,17 +50,17 @@ export default defineComponent({
           }
         },
         title: {
-          text: this.$t('configChart.testsPerformed'),
+          text: t('configChart.testsPerformed'),
           align: 'center',
           style: {
-            color: this.$q.dark.isActive ? '#fff' : '#000',
+            color: $q.dark.isActive ? '#fff' : '#000',
             fontSize: '20px',
             fontFamily: 'Roboto',
             fontWeight: 'medium'
           }
         },
         grid: {
-          borderColor: this.$q.dark.isActive ? '#fff' : '#000',
+          borderColor: $q.dark.isActive ? '#fff' : '#000',
           strokeDashArray: 0,
           xaxis: {
             lines: {
@@ -72,7 +76,7 @@ export default defineComponent({
           labels: {
             show: true,
             style: {
-              colors: this.$q.dark.isActive ? '#fff' : '#000',
+              colors: $q.dark.isActive ? '#fff' : '#000',
               fontSize: '13px',
               fontFamily: 'Roboto',
               fontWeight: 300
@@ -81,9 +85,9 @@ export default defineComponent({
         },
         yaxis: {
           labels: {
-            show: !this.$q.platform.is.mobile,
+            show: !$q.platform.is.mobile,
             style: {
-              colors: this.$q.dark.isActive ? '#fff' : '#000',
+              colors: $q.dark.isActive ? '#fff' : '#000',
               fontFamily: 'Roboto',
               fontSize: '12px',
               fontWeight: 400
@@ -94,15 +98,16 @@ export default defineComponent({
           }
         }
       }
+    })
+
+    onMounted(() => {
+      covidStore.fetchTestChartData()
+    })
+
+    return {
+      getTestChartData: covidStore.getTestChartData,
+      getChartOptions
     }
-  },
-
-  methods: {
-    ...mapActions('covidModule', ['fetchTestChartData'])
-  },
-
-  mounted () {
-    this.fetchTestChartData()
   }
 })
 </script>

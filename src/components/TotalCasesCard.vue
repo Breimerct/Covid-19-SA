@@ -18,10 +18,10 @@
         </q-item-section>
         <q-item-section>
           <q-item-label>
-            {{ $t('lastUpdate').toString() | capitalizeFirstLetter }}
+            {{ capitalizeFirstLetter(t('lastUpdate').toString()) }}
           </q-item-label>
           <q-item-label class="text-white" caption>
-            {{ getCovidData.update | formatDate | capitalizeFirstLetter }}
+            {{ capitalizeFirstLetter(formatDate(getCovidData.update)) }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -29,7 +29,7 @@
     <q-separator />
     <q-card-section class="q-my-none flex justify-between">
       <div class="text-h6 text-weight-light text-weight-light">
-        {{ $t('totalCasesTitle').toString() | capitalizeFirstLetter }}
+        {{ capitalizeFirstLetter(t('totalCasesTitle').toString()) }}
       </div>
       <q-btn dense flat icon="mdi-chart-box-outline" v-if="validateVisibleHistoricalButton" @click="showDialogChart" />
     </q-card-section>
@@ -41,12 +41,12 @@
         <div class="col-8 text-right">
           <div class="text-h4">
             <p class="q-ma-none">
-              {{ (getCovidData.cases || 0) | formatNumber }}
+              {{ formatNumber(getCovidData.cases || 0) }}
             </p>
           </div>
           <div class="text-italic">
-            {{ `${$t('increment')}+` }}
-            {{ getCovidData.todayCases | formatNumber }}
+            {{ `${t('increment')}+` }}
+            {{ formatNumber(getCovidData.todayCases) }}
           </div>
         </div>
       </div>
@@ -55,39 +55,58 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { defineComponent, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useQuasar } from 'quasar'
+import { useCovidStore } from 'stores/covid'
+import { capitalizeFirstLetter, formatDate, formatNumber } from 'src/helpers/formatters'
 
 export default defineComponent({
   name: 'TotalCasesCard',
 
-  computed: {
-    ...mapGetters('covidModule', ['getCountrySelected', 'getCovidData']),
+  emits: ['showChart'],
 
-    validateVisibleHistoricalButton (): boolean {
+  setup(_, { emit }) {
+    const { t } = useI18n()
+    const $q = useQuasar()
+    const covidStore = useCovidStore()
+
+    const validateVisibleHistoricalButton = computed((): boolean => {
+      const countrySelected = covidStore.getCountrySelected
       return (
-        !this.getCountrySelected?.value.includes('south') &&
-        !this.getCountrySelected?.value.includes('french') &&
-        !this.getCountrySelected?.value.includes('falkland')
+        !countrySelected?.value.includes('south') &&
+        !countrySelected?.value.includes('french') &&
+        !countrySelected?.value.includes('falkland')
       )
-    },
+    })
 
-    isDark (): boolean {
-      return Boolean(this.$q.dark.isActive)
-    },
+    const isDark = computed((): boolean => {
+      return Boolean($q.dark.isActive)
+    })
 
-    opacity (): number {
-      return this.isDark ? 0.04 : 0.2
-    }
-  },
+    const opacity = computed((): number => {
+      return isDark.value ? 0.04 : 0.2
+    })
 
-  methods: {
-    showDialogChart () {
-      this.$root.$emit('showDialogHistoricalChart', {
+    function showDialogChart() {
+      emit('showChart', {
         show: true,
-        title: this.$t('totalCasesTitle'),
+        title: t('totalCasesTitle'),
         categoryCard: 'cases'
       })
+    }
+
+    return {
+      t,
+      getCountrySelected: covidStore.getCountrySelected,
+      getCovidData: covidStore.getCovidData,
+      validateVisibleHistoricalButton,
+      isDark,
+      opacity,
+      capitalizeFirstLetter,
+      formatDate,
+      formatNumber,
+      showDialogChart
     }
   }
 })

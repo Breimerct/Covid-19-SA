@@ -55,37 +55,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapActions } from 'vuex'
+import { defineComponent, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useThemeStore } from 'stores/theme'
+import CardInfo from 'components/CardInfo.vue'
+
+// Import images
+import colombiaFlag from '../assets/flags/colombia.png'
+import usFlag from '../assets/flags/united_states.png'
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    CardInfo: () => import('components/CardInfo.vue')
+    CardInfo
   },
 
-  computed: {
-    getLanguageFlag (): any {
-      return this.$i18n.locale === 'en-us'
-        ? require('../assets/flags/colombia.png')
-        : require('../assets/flags/united_states.png')
-    }
-  },
+  setup() {
+    const { locale } = useI18n()
+    const themeStore = useThemeStore()
 
-  methods: {
-    ...mapActions(['themeToggle']),
+    const getLanguageFlag = computed(() => {
+      return locale.value === 'en-us' ? colombiaFlag : usFlag
+    })
 
-    changeLang () {
-      if (this.$i18n.locale === 'es-es') {
-        this.$i18n.locale = 'en-us'
-        this.$i18n.fallbackLocale = 'en-us'
+    function changeLang() {
+      if (locale.value === 'es-es') {
+        locale.value = 'en-us'
       } else {
-        this.$i18n.locale = 'es-es'
-        this.$i18n.fallbackLocale = 'es-es'
+        locale.value = 'es-es'
       }
+      localStorage.setItem('lang', locale.value)
+    }
 
-      localStorage.setItem('lang', this.$i18n.locale)
+    return {
+      getLanguageFlag,
+      changeLang,
+      themeToggle: themeStore.themeToggle
     }
   }
 })

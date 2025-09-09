@@ -1,4 +1,4 @@
-import { ICategories } from 'src/store/CovidModule/moduleInterfaces'
+import { ICategories } from 'src/models/models'
 import { i18n } from 'boot/i18n'
 import { ICountriesOptions } from 'src/models/models'
 import southAmerica from 'assets/flags/south_america.png'
@@ -18,7 +18,7 @@ import falklandIslandsMalvinas from 'assets/flags/falkland_islands_malvinas.png'
 import frenchGuiana from 'assets/flags/french_guiana.png'
 
 const util = {
-  getCountryItems (): ICountriesOptions[] {
+  getCountryItems(): ICountriesOptions[] {
     return [
       {
         label: i18n.global.t('countries.southAmerica').toString(),
@@ -112,15 +112,15 @@ const util = {
     ]
   },
 
-  getSouthAmerica (): ICountriesOptions {
+  getSouthAmerica(): ICountriesOptions {
     return util.getCountryItems().filter(country => country.value === 'south america')[0]
   },
 
-  getOneCountry (_country): ICountriesOptions {
+  getOneCountry(_country): ICountriesOptions {
     return util.getCountryItems().find(country => country.value === _country)
   },
 
-  formatNumber (value: number): string {
+  formatNumber(value: number): string {
     try {
       const dot = '.'
       let valueString = value.toString()
@@ -138,12 +138,12 @@ const util = {
         res += nums[i]
       }
       return res
-    } catch (error) {
+    } catch {
       return '0'
     }
   },
 
-  getFormatChartData (object: any, property: string): ICategories[] {
+  getFormatChartData(object: any, property: string): ICategories[] {
     const keysObject = Object.keys(object[property])
     const historicalData: any[] = []
     const category = util.getColorAndNameCategory(property)
@@ -159,7 +159,7 @@ const util = {
     ]
   },
 
-  getColorAndNameCategory (category: string): { name: string; color: string } {
+  getColorAndNameCategory(category: string): { name: string; color: string } {
     switch (category) {
       case 'cases': {
         return {
@@ -188,7 +188,7 @@ const util = {
     }
   },
 
-  capitalizeFirstLetter (text: string): string {
+  capitalizeFirstLetter(text: string): string {
     if (!text) return ''
     text = text.toLowerCase()
     return `${text[0].toUpperCase()}${text.slice(1)}`

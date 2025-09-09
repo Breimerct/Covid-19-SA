@@ -8,13 +8,13 @@
       </div>
       <div class="row q-mt-xs q-col-gutter-md">
         <div class="col-12">
-          <total-cases-card />
+          <total-cases-card @show-chart="handleShowChart" />
         </div>
         <div class="col-6" v-for="(category, index) in getCategories" :key="index">
-          <covid-card v-bind="category" :index="index" />
+          <covid-card v-bind="category" :index="index" @show-chart="handleShowChart" />
         </div>
         <div class="col-12" v-if="getCovidData?.country && getCountrySelected.value !== 'french guiana'">
-          <vaccine-card />
+          <vaccine-card @show-chart="handleShowChart" />
         </div>
         <div class="col-12" v-if="!getCovidData?.country">
           <test-chart />
@@ -22,90 +22,118 @@
       </div>
     </div>
 
-    <dialog-historical-chart />
+    <dialog-historical-chart 
+      v-model:show="dialogChart.show"
+      :title="dialogChart.title"
+      :category-card="dialogChart.categoryCard"
+    />
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { defineComponent, computed, watch, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useCovidStore } from 'stores/covid'
 import { ICategory } from 'src/models/models'
+import DialogHistoricalChart from 'components/DialogHistoricalChart.vue'
+import VaccineCard from 'components/VaccineCard.vue'
+import TestChart from 'components/chart/TestChart.vue'
+import CovidCard from 'components/CovidCard.vue'
+import TotalCasesCard from 'components/TotalCasesCard.vue'
+import CountrySearch from 'components/CountrySearch.vue'
 
 export default defineComponent({
   name: 'CovidHome',
 
   components: {
-    DialogHistoricalChart: () => import('components/DialogHistoricalChart.vue'),
-    VaccineCard: () => import('components/VaccineCard.vue'),
-    TestChart: () => import('components/chart/TestChart.vue'),
-    CovidCard: () => import('components/CovidCard.vue'),
-    TotalCasesCard: () => import('components/TotalCasesCard.vue'),
-    CountrySearch: () => import('components/CountrySearch.vue')
+    DialogHistoricalChart,
+    VaccineCard,
+    TestChart,
+    CovidCard,
+    TotalCasesCard,
+    CountrySearch
   },
 
-  computed: {
-    ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
+  setup() {
+    const { t, locale } = useI18n()
+    const covidStore = useCovidStore()
 
-    getCategories(): ICategory[] {
+    const dialogChart = ref({
+      show: false,
+      title: '',
+      categoryCard: ''
+    })
+
+    const getCategories = computed((): ICategory[] => {
+      const covidData = covidStore.getCovidData
       return [
         {
           category: 'test',
-          title: this.$t('categories.tests'),
+          title: t('categories.tests'),
           icon: 'F0668',
-          total: this.getCovidData?.tests || 0,
+          total: covidData?.tests || 0,
           color: 'amber-8',
           today: 0
         },
         {
           category: 'recovered',
-          title: this.$t('categories.recovered'),
+          title: t('categories.recovered'),
           icon: 'F08D0',
-          total: this.getCovidData?.recovered || 0,
+          total: covidData?.recovered || 0,
           color: 'green',
-          today: this.getCovidData?.todayRecovered || 0
+          today: covidData?.todayRecovered || 0
         },
         {
           category: 'active',
-          title: this.$t('categories.actives'),
+          title: t('categories.actives'),
           icon: 'F0849',
-          total: this.getCovidData?.active || 0,
+          total: covidData?.active || 0,
           color: 'blue-7',
           today: 0
         },
         {
           category: 'deaths',
-          title: this.$t('categories.deceased'),
+          title: t('categories.deceased'),
           icon: 'F0B7F',
-          total: this.getCovidData?.deaths || 0,
+          total: covidData?.deaths || 0,
           color: 'red',
-          today: this.getCovidData?.todayDeaths || 0
+          today: covidData?.todayDeaths || 0
         }
       ]
-    }
-  },
+    })
 
-  watch: {
-    '$i18n.locale'(): void {
-      if (this.getCountrySelected.value.includes('south')) {
-        this.fetchTestChartData(this.getCountrySelected.value)
+    function handleShowChart(data: { show: boolean; title: string; categoryCard: string }) {
+      dialogChart.value = data
+    }
+
+    // Watch for locale changes
+    watch(locale, () => {
+      const countrySelected = covidStore.getCountrySelected
+
+      if (countrySelected.value.includes('south')) {
+        covidStore.fetchTestChartData()
       }
 
-      if (!this.getCountrySelected.value.includes('french') && !this.getCountrySelected.value.includes('south')) {
-        this.fetchVaccineData(this.getCountrySelected.value)
+      if (!countrySelected.value.includes('french') && !countrySelected.value.includes('south')) {
+        covidStore.fetchVaccineData(countrySelected.value)
       }
 
       if (
-        !this.getCountrySelected.value.includes('french') &&
-        !this.getCountrySelected.value.includes('south') &&
-        !this.getCountrySelected.value.includes('falkland')
+        !countrySelected.value.includes('french') &&
+        !countrySelected.value.includes('south') &&
+        !countrySelected.value.includes('falkland')
       ) {
-        this.fetchCategoriesHistoricalData(this.getCountrySelected.value)
+        covidStore.fetchCategoriesHistoricalData(countrySelected.value)
       }
-    }
-  },
+    })
 
-  methods: {
-    ...mapActions('covidModule', ['fetchTestChartData', 'fetchVaccineData', 'fetchCategoriesHistoricalData'])
+    return {
+      getCategories,
+      getCovidData: covidStore.getCovidData,
+      getCountrySelected: covidStore.getCountrySelected,
+      dialogChart,
+      handleShowChart
+    }
   }
 })
 </script>

@@ -8,7 +8,7 @@ declare module '@vue/runtime-core' {
 }
 
 const httpClient = axios.create({
-  baseURL: process.env.API_URL
+  baseURL: import.meta.env.VITE_API_URL || process.env.API_URL
 })
 
 export { httpClient }
