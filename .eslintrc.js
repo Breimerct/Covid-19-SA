@@ -14,7 +14,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
 
@@ -28,23 +28,24 @@ module.exports = {
   // Rules order is important, please avoid shuffling them
   extends: [
     // Base ESLint recommended rules
-    // 'eslint:recommended',
+    'eslint:recommended',
 
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
     'plugin:@typescript-eslint/recommended',
-    // consider disabling this class of rules if linting takes too long
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
-    // Uncomment any of the lines below to choose desired strictness,
-    // but leave only one uncommented!
-    // See https://eslint.vuejs.org/rules/#available-rules (look for Vuejs 2 ones)
-    'plugin:vue/essential', // Priority A: Essential (Error Prevention)
-    // 'plugin:vue/strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
-    // 'plugin:vue/recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
+    // Vue 3 specific rules
+    'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention) for Vue 3
+    // 'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
+    // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
-    'standard'
+    // Standard JavaScript Style Guide
+    'standard',
 
+    // https://github.com/prettier/eslint-config-prettier#installation
+    // usage with Prettier, provided by 'eslint-config-prettier'.
+    // IMPORTANT: Must be last to override other configs
+    'prettier'
   ],
 
   plugins: [
@@ -53,9 +54,7 @@ module.exports = {
 
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
     // required to lint *.vue files
-    'vue',
-
-
+    'vue'
   ],
 
   globals: {
@@ -69,7 +68,6 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-
     // allow async-await
     'generator-star-spacing': 'off',
     // allow paren-less arrow functions
@@ -78,6 +76,7 @@ module.exports = {
     'no-void': 'off',
     'multiline-ternary': 'off',
 
+    // Import rules
     'import/first': 'off',
     'import/namespace': 'error',
     'import/default': 'error',
@@ -85,19 +84,15 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
-
-    // The core 'import/named' rules
-    // does not work with type definitions
-    'import/named': 'off',
+    'import/named': 'off', // does not work with type definitions
 
     'prefer-promise-reject-errors': 'off',
 
+    // Quotes configuration
     quotes: ['warn', 'single', { avoidEscape: true }],
 
-    // this rule, if on, would require explicit return type on the `render` function
+    // TypeScript rules
     '@typescript-eslint/explicit-function-return-type': 'off',
-
-    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -107,15 +102,22 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
-    'vue/no-side-effects-in-computed-properties': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-unsafe-argument': 'off',
 
-    // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
-    // does not work with type definitions
+    // Vue rules
+    'vue/no-side-effects-in-computed-properties': 'off',
+    'vue/multi-word-component-names': 'off',
+    'vue/no-deprecated-filter': 'off', // TODO: Migrate filters to computed properties or methods
+
+    // Code style rules
+    'comma-dangle': ['error', 'never'],
+    semi: ['error', 'never'],
+    'space-before-function-paren': ['error', 'always'],
+
+    // Core rules
     'no-unused-vars': 'off',
     'no-useless-escape': 'off',
-
-    'vue/multi-word-component-names': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
