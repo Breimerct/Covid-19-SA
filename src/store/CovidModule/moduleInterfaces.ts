@@ -10,22 +10,22 @@ export interface ICovidData {
   vaccine?: number
   updated?: number
   flag?: string
-  country?: string,
+  country?: string
   countryInfo?: {
     flag?: string
   }
 }
 
 export interface ITestChartSeries {
-  name: string,
+  name: string
   data: number[]
 }
 
 export interface IHistoricalData {
-  country?: string,
+  country?: string
   timeline?: {
-    cases?: any,
-    deaths?: any,
+    cases?: any
+    deaths?: any
     recovered?: any
   }
 }

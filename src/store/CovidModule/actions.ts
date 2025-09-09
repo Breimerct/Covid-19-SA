@@ -29,10 +29,12 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
         .map(country => country.value)
         .join(',')
       const { data } = await httpClient.get<ICovidData[]>(`/countries/${countries}`)
-      commit('setTestChartData', [{
-        name: i18n.t('categories.tests'),
-        data: data.map(val => val.tests)
-      }])
+      commit('setTestChartData', [
+        {
+          name: i18n.global.t('categories.tests'),
+          data: data.map(val => val.tests)
+        }
+      ])
     } catch (e: any) {
       console.error(e.response.data?.message || e)
     } finally {
@@ -40,10 +42,7 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
     }
   },
 
-  async fetchVaccineData ({
-    state,
-    commit
-  }, country: string): Promise<void> {
+  async fetchVaccineData ({ state, commit }, country: string): Promise<void> {
     try {
       Loading.show()
       const { data } = await httpClient.get(`/vaccine/coverage/countries/${country}/`, {
@@ -51,21 +50,23 @@ const actions: ActionTree<CovidStateInterface, StateInterface> = {
           lastdays: 30
         }
       })
-      const timelineArray = Object.keys((data.timeline))
+      const timelineArray = Object.keys(data.timeline)
       const historicalData: any[] = []
       timelineArray.forEach(value => {
         historicalData.push([new Date(value).getTime(), data.timeline[value]])
       })
       commit('setCovidData', {
         ...state.covidData,
-        vaccine: data.timeline[timelineArray[(timelineArray.length - 1)]]
+        vaccine: data.timeline[timelineArray[timelineArray.length - 1]]
       })
       commit('setHistoricalData', {
-        vaccines: [{
-          name: i18n.t('categories.vaccinated'),
-          data: historicalData,
-          color: '#3f51b5'
-        }]
+        vaccines: [
+          {
+            name: i18n.global.t('categories.vaccinated'),
+            data: historicalData,
+            color: '#3f51b5'
+          }
+        ]
       })
     } catch (e: any) {
       console.error(e.response.data?.message || e)

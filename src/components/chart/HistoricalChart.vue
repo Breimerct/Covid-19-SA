@@ -1,10 +1,5 @@
 <template>
-  <apex-chart
-    type="area"
-    :options="chartOptions"
-    :series="getChartData"
-    height="550"
-  />
+  <apex-chart type="area" :options="chartOptions" :series="getChartData" height="550" />
 </template>
 
 <script lang="ts">
@@ -35,10 +30,12 @@ export default defineComponent({
         colors: ['#000'],
         chart: {
           defaultLocale: this.$i18n.locale,
-          locales: [{
-            name: this.$i18n.locale,
-            options: this.$t('configChart.locales')
-          }],
+          locales: [
+            {
+              name: this.$i18n.locale,
+              options: this.$t('configChart.locales')
+            }
+          ],
           toolbar: {
             show: false
           },
@@ -124,6 +121,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

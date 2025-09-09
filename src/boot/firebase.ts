@@ -16,10 +16,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig)
 const analytics = getAnalytics(firebaseApp)
 
-export {
-  analytics,
-  logEvent
-}
+export { analytics, logEvent }
 
 export default boot(() => {
   // config

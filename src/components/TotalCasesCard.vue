@@ -5,7 +5,7 @@
       'bg-cyan-6 text-white': !isDark,
       'bg-grey-10 text-cyan-6': isDark
     }"
-    style="--icon: '\F13B6';"
+    style="--icon: '\F13B6'"
     :style="`--opacity: ${opacity}`"
     v-if="getCovidData"
   >
@@ -13,12 +13,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar size="80px" square>
-            <q-img
-              :src="getCountrySelected.flag"
-              alt="country flag"
-              ratio="1"
-              contain
-            />
+            <q-img :src="getCountrySelected.flag" alt="country flag" ratio="1" contain />
           </q-avatar>
         </q-item-section>
         <q-item-section>
@@ -31,27 +26,17 @@
         </q-item-section>
       </q-item>
     </q-card-section>
-    <q-separator/>
+    <q-separator />
     <q-card-section class="q-my-none flex justify-between">
       <div class="text-h6 text-weight-light text-weight-light">
         {{ $t('totalCasesTitle').toString() | capitalizeFirstLetter }}
       </div>
-      <q-btn
-        dense
-        flat
-        icon="mdi-chart-box-outline"
-        v-if="validateVisibleHistoricalButton"
-        @click="showDialogChart"
-      />
+      <q-btn dense flat icon="mdi-chart-box-outline" v-if="validateVisibleHistoricalButton" @click="showDialogChart" />
     </q-card-section>
     <q-card-section class="q-py-none">
       <div class="row">
         <div class="col-4">
-          <q-icon
-            name="mdi-check-bold"
-            color="greenn"
-            size="40px"
-          ></q-icon>
+          <q-icon name="mdi-check-bold" color="greenn" size="40px"></q-icon>
         </div>
         <div class="col-8 text-right">
           <div class="text-h4">
@@ -60,7 +45,8 @@
             </p>
           </div>
           <div class="text-italic">
-            {{ `${$t('increment')}+` }} {{ getCovidData.todayCases | formatNumber }}
+            {{ `${$t('increment')}+` }}
+            {{ getCovidData.todayCases | formatNumber }}
           </div>
         </div>
       </div>
@@ -80,14 +66,14 @@ export default defineComponent({
 
     validateVisibleHistoricalButton (): boolean {
       return (
-        (!this.getCountrySelected?.value.includes('south')) &&
-        (!this.getCountrySelected?.value.includes('french')) &&
-        (!this.getCountrySelected?.value.includes('falkland'))
+        !this.getCountrySelected?.value.includes('south') &&
+        !this.getCountrySelected?.value.includes('french') &&
+        !this.getCountrySelected?.value.includes('falkland')
       )
     },
 
-    isDark (): boolean | any {
-      return this.$q.dark.isActive
+    isDark (): boolean {
+      return Boolean(this.$q.dark.isActive)
     },
 
     opacity (): number {
@@ -107,5 +93,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

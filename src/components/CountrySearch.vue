@@ -13,7 +13,7 @@
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <q-img :src="scope.opt.flag"/>
+            <q-img :src="scope.opt.flag" />
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ scope.opt.label | capitalize }}</q-item-label>
@@ -22,7 +22,7 @@
       </template>
 
       <template v-slot:prepend>
-        <q-icon name="place" color="primary"/>
+        <q-icon name="place" color="primary" />
       </template>
     </q-select>
   </div>
@@ -66,26 +66,15 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapActions('covidModule', [
-      'fetchCountryData',
-      'fetchVaccineData',
-      'fetchCategoriesHistoricalData'
-    ]),
+    ...mapActions('covidModule', ['fetchCountryData', 'fetchVaccineData', 'fetchCategoriesHistoricalData']),
 
     ...mapMutations('covidModule', ['setCountrySelected', 'setHistoricalData']),
 
     handleValidationFetchData (country: string): void {
-      if (
-        !country.includes('french') &&
-        !country.includes('south')
-      ) {
+      if (!country.includes('french') && !country.includes('south')) {
         this.fetchVaccineData(country)
       }
-      if (
-        !country.includes('french') &&
-        !country.includes('south') &&
-        !country.includes('falkland')
-      ) {
+      if (!country.includes('french') && !country.includes('south') && !country.includes('falkland')) {
         this.fetchCategoriesHistoricalData(country)
       }
     },
@@ -106,5 +95,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

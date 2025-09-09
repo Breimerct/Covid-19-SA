@@ -5,33 +5,21 @@
       'bg-indigo-6 text-white': !isDark,
       'bg-grey-10 text-indigo-6': isDark
     }"
-    style="--icon: '\F0391';"
+    style="--icon: '\F0391'"
     :style="`--opacity: ${opacity}`"
   >
     <q-card-section class="flex justify-between">
       <p class="q-ma-none text-h6 text-weight-medium">
         {{ $t('categories.vaccinated').toString() | capitalizeFirstLetter }}
       </p>
-      <q-skeleton
-        size="35px"
-        v-if="!vaccineData"
-      />
-      <q-btn
-        v-else
-        flat
-        dense
-        icon="mdi-chart-box-outline"
-        @click="showDialogChart"
-      />
+      <q-skeleton size="35px" v-if="!vaccineData" />
+      <q-btn v-else flat dense icon="mdi-chart-box-outline" @click="showDialogChart" />
     </q-card-section>
 
     <q-card-section class="q-py-none">
       <div class="row">
         <div class="col-12 text-right" style="min-height: 50px">
-          <q-skeleton
-            class="text-h5 text-weight-light"
-            v-if="!vaccineData"
-          />
+          <q-skeleton class="text-h5 text-weight-light" v-if="!vaccineData" />
           <p class="text-h5 text-right text-weight-light" v-else>
             {{ vaccineData | formatNumber }}
           </p>
@@ -54,8 +42,8 @@ export default {
       return parseInt(this.getCovidData.vaccine) || 0
     },
 
-    isDark (): boolean | any {
-      return this.$q.dark.isActive
+    isDark (): boolean {
+      return Boolean(this.$q.dark.isActive)
     },
 
     opacity (): string {
@@ -75,6 +63,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

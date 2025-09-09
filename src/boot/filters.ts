@@ -3,28 +3,39 @@ import moment from 'moment/moment'
 import { i18n } from 'boot/i18n'
 import Util from 'src/helpers/Util'
 
-export default boot(({ Vue }): any => {
-  Vue.filter('capitalizeFirstLetter', (value: string): string => {
-    if (!value) return ''
-    value = value.toLowerCase()
-    return `${value[0].toUpperCase()}${value.slice(1)}`
-  })
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $filters: {
+      capitalizeFirstLetter: (value: string) => string
+      capitalize: (value: string) => string
+      formatDate: (value: number | string) => string
+      formatNumber: (value: number) => string
+    }
+  }
+}
 
-  Vue.filter('capitalize', function (value: string): string {
-    if (!value) return ''
-    value = value.toLowerCase()
-      .replace(
-        /(?:^|\s)\S/g,
-        (text: string) => (text || '').toString().toUpperCase()
-      )
-    return value
-  })
+export default boot(({ app }) => {
+  app.config.globalProperties.$filters = {
+    capitalizeFirstLetter (value: string): string {
+      if (!value) return ''
+      value = value.toLowerCase()
+      return `${value[0].toUpperCase()}${value.slice(1)}`
+    },
 
-  Vue.filter('formatDate', (value: number | string): string => {
-    return moment(value).locale(i18n.locale).format('LLLL')
-  })
+    capitalize (value: string): string {
+      if (!value) return ''
+      value = value.toLowerCase().replace(/(?:^|\s)\S/g, (text: string) => (text || '').toString().toUpperCase())
+      return value
+    },
 
-  Vue.filter('formatNumber', (value: number): string => {
-    return Util.formatNumber(value)
-  })
+    formatDate (value: number | string): string {
+      return moment(value)
+        .locale(i18n.global.locale as string)
+        .format('LLLL')
+    },
+
+    formatNumber (value: number): string {
+      return Util.formatNumber(value)
+    }
+  }
 })

@@ -1,6 +1,6 @@
-import { RouteConfig } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 
-const routes: RouteConfig[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: {
@@ -16,7 +16,7 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    path: '*',
+    path: '/:catchAll(.*)*',
     redirect: {
       name: 'covidHome'
     }

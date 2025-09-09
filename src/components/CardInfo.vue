@@ -3,12 +3,7 @@
     <q-card-section class="text-center">
       <div>
         <q-avatar size="100px" class="shadow-10">
-          <q-img
-            src="../assets/profile.jpg"
-            alt="profile-image"
-            ratio="1"
-            transition="slide-up"
-          />
+          <q-img src="../assets/profile.jpg" alt="profile-image" ratio="1" transition="slide-up" />
         </q-avatar>
       </div>
     </q-card-section>
@@ -19,19 +14,11 @@
         'text-white': isDark
       }"
     >
-      <p class="text-h6 q-ma-none">
-        Breimer Correa Torres
-      </p>
+      <p class="text-h6 q-ma-none">Breimer Correa Torres</p>
       <p class="text-caption text-capitalize">
         {{ $t('profession') }}
       </p>
-      <q-btn
-        rounded
-        color="primary"
-        :label="$t('share')"
-        icon-right="mdi-share-variant-outline"
-        @click="shareApp"
-      />
+      <q-btn rounded color="primary" :label="$t('share')" icon-right="mdi-share-variant-outline" @click="shareApp" />
     </q-card-section>
     <q-card-actions align="center" class="q-mt-sm">
       <q-btn
@@ -40,15 +27,13 @@
         v-close-popup
         v-for="(item, index) in social"
         :key="index"
-        :icon="'mdi-'+item.icon"
+        :icon="'mdi-' + item.icon"
         class="text-white"
-        :class="'bg-'+item.color"
+        :class="'bg-' + item.color"
         @click="openLink(item.url)"
       />
     </q-card-actions>
-    <small class="text-overline">
-      V. 2.0
-    </small>
+    <small class="text-overline"> V. 2.0 </small>
   </q-card>
 </template>
 
@@ -92,13 +77,13 @@ export default {
   }),
 
   computed: {
-    isDark (): boolean | any {
-      return this.$q.dark.isActive
+    isDark (): boolean {
+      return Boolean(this.$q.dark.isActive)
     }
   },
 
   methods: {
-    openLink (url): void {
+    openLink (url: string): void {
       window.open(url, '_blank')
     },
 
@@ -114,6 +99,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

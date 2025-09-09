@@ -1,5 +1,4 @@
-export interface ICommonStateInterface {
-}
+export interface ICommonStateInterface {}
 
 const state = (): ICommonStateInterface => ({})
 

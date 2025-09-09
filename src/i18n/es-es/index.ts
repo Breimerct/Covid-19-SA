@@ -38,7 +38,20 @@ export default {
     testsPerformed: 'Pruebas realizadas',
     statisticsPerDay: 'Estadísticas por días',
     locales: {
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'mayo', 'junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      months: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'mayo',
+        'junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ],
       shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'],
       days: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
       shortDays: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']

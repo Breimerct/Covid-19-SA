@@ -11,13 +11,7 @@
       <p class="q-ma-none text-h6 text-weight-medium">
         {{ title | capitalizeFirstLetter }}
       </p>
-      <q-btn
-        flat
-        dense
-        icon="mdi-chart-box-outline"
-        v-if="validateVisibleHistoricalButton"
-        @click="showDialogChart"
-      />
+      <q-btn flat dense icon="mdi-chart-box-outline" v-if="validateVisibleHistoricalButton" @click="showDialogChart" />
     </q-card-section>
 
     <q-card-section>
@@ -26,9 +20,7 @@
           <p class="q-ma-none text-h5 text-right text-weight-light">
             {{ total | formatNumber }}
           </p>
-          <p class="q-ma-none text-italic text-right">
-            + {{ today || 0 | formatNumber }}
-          </p>
+          <p class="q-ma-none text-italic text-right">+ {{ today || 0 | formatNumber }}</p>
         </div>
       </div>
     </q-card-section>
@@ -78,11 +70,11 @@ export default defineComponent({
 
     validateVisibleHistoricalButton (): boolean {
       return (
-        (this.index !== 0) &&
-        (this.index !== 2) &&
-        (!this.getCountrySelected?.value.includes('south')) &&
-        (!this.getCountrySelected?.value.includes('french')) &&
-        (!this.getCountrySelected?.value.includes('falkland'))
+        this.index !== 0 &&
+        this.index !== 2 &&
+        !this.getCountrySelected?.value.includes('south') &&
+        !this.getCountrySelected?.value.includes('french') &&
+        !this.getCountrySelected?.value.includes('falkland')
       )
     },
 
@@ -90,8 +82,8 @@ export default defineComponent({
       return this.$q.dark.isActive ? '0.04' : '0.2'
     },
 
-    isDark (): boolean | any {
-      return this.$q.dark.isActive
+    isDark (): boolean {
+      return Boolean(this.$q.dark.isActive)
     }
   },
 
@@ -107,6 +99,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

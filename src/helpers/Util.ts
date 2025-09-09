@@ -21,90 +21,90 @@ const util = {
   getCountryItems (): ICountriesOptions[] {
     return [
       {
-        label: i18n.t('countries.southAmerica').toString(),
+        label: i18n.global.t('countries.southAmerica').toString(),
         value: 'south america',
         flag: southAmerica
       },
       {
-        label: i18n.t('countries.colombia').toString(),
+        label: i18n.global.t('countries.colombia').toString(),
         shortName: 'col',
         value: 'colombia',
         flag: colombia
       },
       {
-        label: i18n.t('countries.brazil').toString(),
+        label: i18n.global.t('countries.brazil').toString(),
         shortName: 'bra',
         value: 'brazil',
         flag: brazil
       },
       {
-        label: i18n.t('countries.argentina').toString(),
+        label: i18n.global.t('countries.argentina').toString(),
         shortName: 'arg',
         value: 'argentina',
         flag: argentina
       },
       {
-        label: i18n.t('countries.chile').toString(),
+        label: i18n.global.t('countries.chile').toString(),
         shortName: 'chl',
         value: 'chile',
         flag: chile
       },
       {
-        label: i18n.t('countries.venezuela').toString(),
+        label: i18n.global.t('countries.venezuela').toString(),
         shortName: 'ven',
         value: 'venezuela',
         flag: venezuela
       },
       {
-        label: i18n.t('countries.peru').toString(),
+        label: i18n.global.t('countries.peru').toString(),
         shortName: 'per',
         value: 'peru',
         flag: peru
       },
       {
-        label: i18n.t('countries.ecuador').toString(),
+        label: i18n.global.t('countries.ecuador').toString(),
         shortName: 'ecu',
         value: 'ecuador',
         flag: ecuador
       },
       {
-        label: i18n.t('countries.bolivia').toString(),
+        label: i18n.global.t('countries.bolivia').toString(),
         shortName: 'bol',
         value: 'bolivia',
         flag: bolivia
       },
       {
-        label: i18n.t('countries.paraguay').toString(),
+        label: i18n.global.t('countries.paraguay').toString(),
         shortName: 'pry',
         value: 'paraguay',
         flag: paraguay
       },
       {
-        label: i18n.t('countries.uruguay').toString(),
+        label: i18n.global.t('countries.uruguay').toString(),
         shortName: 'ury',
         value: 'uruguay',
         flag: uruguay
       },
       {
-        label: i18n.t('countries.suriname').toString(),
+        label: i18n.global.t('countries.suriname').toString(),
         shortName: 'sur',
         value: 'suriname',
         flag: suriname
       },
       {
-        label: i18n.t('countries.guyana').toString(),
+        label: i18n.global.t('countries.guyana').toString(),
         shortName: 'guy',
         value: 'guyana',
         flag: guyana
       },
       {
-        label: i18n.t('countries.falklandIslands').toString(),
+        label: i18n.global.t('countries.falklandIslands').toString(),
         shortName: 'flk',
         value: 'falkland islands (malvinas)',
         flag: falklandIslandsMalvinas
       },
       {
-        label: i18n.t('countries.frenchGuiana').toString(),
+        label: i18n.global.t('countries.frenchGuiana').toString(),
         shortName: 'guf',
         value: 'french guiana',
         flag: frenchGuiana
@@ -116,7 +116,7 @@ const util = {
     return util.getCountryItems().filter(country => country.value === 'south america')[0]
   },
 
-  getOneCountry (_country):ICountriesOptions {
+  getOneCountry (_country): ICountriesOptions {
     return util.getCountryItems().find(country => country.value === _country)
   },
 
@@ -150,34 +150,36 @@ const util = {
     keysObject.forEach(key => {
       historicalData.push([new Date(key).getTime(), object[property][key]])
     })
-    return [{
-      name: category.name,
-      data: historicalData,
-      color: category.color
-    }]
+    return [
+      {
+        name: category.name,
+        data: historicalData,
+        color: category.color
+      }
+    ]
   },
 
   getColorAndNameCategory (category: string): { name: string; color: string } {
     switch (category) {
       case 'cases': {
         return {
-          name: i18n.t('categories.confirmed').toString(),
+          name: i18n.global.t('categories.confirmed').toString(),
           color: '#00bcd4'
         }
       }
       case 'deaths': {
         return {
-          name: i18n.t('categories.deceased').toString(),
+          name: i18n.global.t('categories.deceased').toString(),
           color: '#f44336'
         }
       }
       case 'recovered': {
         return {
-          name: i18n.t('categories.recovered').toString(),
+          name: i18n.global.t('categories.recovered').toString(),
           color: '#4caf50'
         }
       }
-      default : {
+      default: {
         return {
           name: '',
           color: ''

@@ -3,42 +3,26 @@
     <div class="main-column q-mt-sm">
       <div class="row">
         <div class="col-12">
-          <country-search/>
+          <country-search />
         </div>
       </div>
       <div class="row q-mt-xs q-col-gutter-md">
         <div class="col-12">
-          <total-cases-card/>
+          <total-cases-card />
         </div>
-        <div
-          class="col-6"
-          v-for="(category, index) in getCategories"
-          :key="index"
-        >
-          <covid-card
-            v-bind="category"
-            :index="index"
-          />
+        <div class="col-6" v-for="(category, index) in getCategories" :key="index">
+          <covid-card v-bind="category" :index="index" />
         </div>
-        <div
-          class="col-12"
-          v-if="
-          getCovidData?.country &&
-          getCountrySelected.value !== 'french guiana'
-        "
-        >
-          <vaccine-card/>
+        <div class="col-12" v-if="getCovidData?.country && getCountrySelected.value !== 'french guiana'">
+          <vaccine-card />
         </div>
-        <div
-          class="col-12"
-          v-if="!getCovidData?.country"
-        >
-          <test-chart/>
+        <div class="col-12" v-if="!getCovidData?.country">
+          <test-chart />
         </div>
       </div>
     </div>
 
-    <dialog-historical-chart/>
+    <dialog-historical-chart />
   </q-page>
 </template>
 
@@ -62,7 +46,7 @@ export default defineComponent({
   computed: {
     ...mapGetters('covidModule', ['getCovidData', 'getCountrySelected']),
 
-    getCategories (): ICategory[] {
+    getCategories(): ICategory[] {
       return [
         {
           category: 'test',
@@ -101,15 +85,12 @@ export default defineComponent({
   },
 
   watch: {
-    '$i18n.locale' (): void {
+    '$i18n.locale'(): void {
       if (this.getCountrySelected.value.includes('south')) {
         this.fetchTestChartData(this.getCountrySelected.value)
       }
 
-      if (
-        !this.getCountrySelected.value.includes('french') &&
-        !this.getCountrySelected.value.includes('south')
-      ) {
+      if (!this.getCountrySelected.value.includes('french') && !this.getCountrySelected.value.includes('south')) {
         this.fetchVaccineData(this.getCountrySelected.value)
       }
 
@@ -124,14 +105,11 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapActions('covidModule', [
-      'fetchTestChartData',
-      'fetchVaccineData',
-      'fetchCategoriesHistoricalData'
-    ])
+    ...mapActions('covidModule', ['fetchTestChartData', 'fetchVaccineData', 'fetchCategoriesHistoricalData'])
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .main-column {
   width: 60%;

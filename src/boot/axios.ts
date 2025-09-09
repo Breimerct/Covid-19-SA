@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios'
 import { boot } from 'quasar/wrappers'
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $axios: AxiosInstance;
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $axios: AxiosInstance
   }
 }
 
@@ -11,11 +11,8 @@ const httpClient = axios.create({
   baseURL: process.env.API_URL
 })
 
-export {
-  httpClient
-}
+export { httpClient }
 
-export default boot(({ Vue }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  Vue.prototype.$axios = axios
+export default boot(({ app }) => {
+  app.config.globalProperties.$axios = axios
 })

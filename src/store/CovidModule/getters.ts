@@ -5,13 +5,13 @@ import { IChartHistoricalData, ICovidData, ITestChartSeries } from 'src/store/Co
 import { ICountriesOptions } from 'src/models/models'
 
 const getters: GetterTree<CovidStateInterface, StateInterface> = {
-  getCovidData: (state): ICovidData | null => (state.covidData),
+  getCovidData: (state): ICovidData | null => state.covidData,
 
-  getTestChartData: (state): ITestChartSeries[] | null => (state.testChartData),
+  getTestChartData: (state): ITestChartSeries[] | null => state.testChartData,
 
-  getCountrySelected: (state): ICountriesOptions => (state.countrySelected),
+  getCountrySelected: (state): ICountriesOptions => state.countrySelected,
 
-  getHistoricalData: (state): IChartHistoricalData | null => (state.historicalData)
+  getHistoricalData: (state): IChartHistoricalData | null => state.historicalData
 }
 
 export default getters

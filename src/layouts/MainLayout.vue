@@ -9,47 +9,26 @@
       >
         <q-toolbar-title class="flex content-center">
           <q-icon size="md" class="q-mr-sm">
-            <q-img src="../assets/covid-icon.svg" alt="Covid-19 SA Logo"/>
+            <q-img src="../assets/covid-icon.svg" alt="Covid-19 SA Logo" />
           </q-icon>
           {{ $t('nameApp') }}
         </q-toolbar-title>
 
-        <q-btn
-          flat
-          dense
-          round
-          icon="mdi-information"
-        >
-          <q-menu
-            fit
-            transition-show="jump-down"
-            transition-hide="jump-up"
-          >
+        <q-btn flat dense round icon="mdi-information">
+          <q-menu fit transition-show="jump-down" transition-hide="jump-up">
             <q-list separator style="min-width: 300px">
               <q-item>
                 <q-item-section>
-                  <q-btn
-                    rounded
-                    outline
-                    color="primary"
-                    :label="$t('changeLang')"
-                    @click="changeLang"
-                  >
+                  <q-btn rounded outline color="primary" :label="$t('changeLang')" @click="changeLang">
                     <q-icon class="q-ml-md">
-                      <q-img :src="getLanguageFlag"/>
+                      <q-img :src="getLanguageFlag" />
                     </q-icon>
                   </q-btn>
                 </q-item-section>
               </q-item>
               <q-item>
                 <q-item-section>
-                  <q-btn
-                    outline
-                    rounded
-                    color="primary"
-                    :label="$t('changeTheme')"
-                    @click="themeToggle"
-                  >
+                  <q-btn outline rounded color="primary" :label="$t('changeTheme')" @click="themeToggle">
                     <q-icon
                       class="q-ml-md"
                       size="sm"
@@ -60,7 +39,7 @@
               </q-item>
               <q-item>
                 <q-item-section>
-                  <card-info/>
+                  <card-info />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -70,7 +49,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view/>
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
@@ -88,7 +67,9 @@ export default defineComponent({
 
   computed: {
     getLanguageFlag (): any {
-      return this.$i18n.locale === 'en-us' ? require('../assets/flags/colombia.png') : require('../assets/flags/united_states.png')
+      return this.$i18n.locale === 'en-us'
+        ? require('../assets/flags/colombia.png')
+        : require('../assets/flags/united_states.png')
     }
   },
 
@@ -107,7 +88,5 @@ export default defineComponent({
       localStorage.setItem('lang', this.$i18n.locale)
     }
   }
-
 })
-
 </script>

@@ -7,19 +7,12 @@
     }"
   >
     <q-card-section>
-      <apex-chart
-        type="bar"
-        height="350"
-        width="100%"
-        :options="getChartOptions"
-        :series="getTestChartData"
-      />
+      <apex-chart type="bar" height="350" width="100%" :options="getChartOptions" :series="getTestChartData" />
     </q-card-section>
   </q-card>
 </template>
 
 <script lang="ts">
-
 import { defineComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import util from 'src/helpers/Util'
@@ -34,7 +27,7 @@ export default defineComponent({
     getChartOptions (): any {
       const countries = Object.values<ICountriesOptions>(util.getCountryItems())
         .filter(country => country.value !== 'south america')
-        .map(country => ((country.shortName || '').toUpperCase()))
+        .map(country => (country.shortName || '').toUpperCase())
 
       return {
         colors: ['#ffa000'],
@@ -114,6 +107,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

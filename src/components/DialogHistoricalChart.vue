@@ -1,31 +1,20 @@
 <template>
-  <q-dialog
-    v-model="showDialog"
-    position="bottom"
-    :full-width="isMobile"
-  >
+  <q-dialog v-model="showDialog" position="bottom" :full-width="isMobile">
     <q-card
-      style="width: 700px; max-width: 85vw;"
+      style="width: 700px; max-width: 85vw"
       :class="{
         'bg-grey-3': !isDark,
-        'bg-grey-10': isDark,
+        'bg-grey-10': isDark
       }"
     >
       <q-card-section class="row justify-between">
         <p class="q-ma-none text-h5">
           {{ title | capitalizeFirstLetter }}
         </p>
-        <q-btn
-          flat
-          round
-          dense
-          v-close-popup
-          :color="isDark ? 'white' : 'black'"
-          icon="close"
-        />
+        <q-btn flat round dense v-close-popup :color="isDark ? 'white' : 'black'" icon="close" />
       </q-card-section>
       <q-card-section class="section-chart">
-        <historical-chart :category="categoryCard"/>
+        <historical-chart :category="categoryCard" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -51,12 +40,12 @@ export default defineComponent({
   }),
 
   computed: {
-    isMobile (): boolean | any {
+    isMobile (): boolean {
       return this.$q.platform.is.mobile
     },
 
-    isDark (): boolean | any {
-      return this.$q?.dark?.isActive
+    isDark (): boolean {
+      return Boolean(this.$q.dark.isActive)
     }
   },
 
