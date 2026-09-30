@@ -22,12 +22,12 @@ Open the local URL printed in the terminal. Vite usually uses `http://localhost:
 
 ## Available Commands
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start the development server. |
-| `pnpm lint` | Run Oxlint. |
-| `pnpm build` | Type-check the project and create a production build in `dist/`. |
-| `pnpm preview` | Preview the production build locally. Run `pnpm build` first. |
+| Command        | Description                                                      |
+| -------------- | ---------------------------------------------------------------- |
+| `pnpm dev`     | Start the development server.                                    |
+| `pnpm lint`    | Run Oxlint.                                                      |
+| `pnpm build`   | Type-check the project and create a production build in `dist/`. |
+| `pnpm preview` | Preview the production build locally. Run `pnpm build` first.    |
 
 ## Project Structure
 
