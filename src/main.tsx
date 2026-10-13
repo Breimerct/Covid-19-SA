@@ -6,7 +6,7 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 
 createRoot(document.getElementById('root')!).render(
-  <MantineProvider defaultColorScheme="auto">
+  <MantineProvider defaultColorScheme="light">
     <App />
   </MantineProvider>
 );
