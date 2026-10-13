@@ -1,5 +1,5 @@
-import { Avatar, Card, Divider, Flex, Text, useMantineColorScheme } from '@mantine/core';
-import { Check, Virus } from 'lucide-react';
+import { Anchor, Avatar, Card, Divider, Flex, Text, useMantineColorScheme } from '@mantine/core';
+import { Check, ExternalLink, Virus } from 'lucide-react';
 import { cn, formatNumber } from '../../utils';
 
 interface CardInfoProps {
@@ -25,9 +25,9 @@ export const CardInfo = ({ lastUpdate, totalCases, increment, flag }: CardInfoPr
         size={160}
       />
 
-      <Card.Section className={cn('mb-4 px-4 z-50')}>
+      <Card.Section className={cn('mb-0.5! px-4 z-50')}>
         <Flex direction="row" align={'center'}>
-          <Avatar variant="filled" radius="xl" size="xl" src={flag} />
+          <Avatar variant="transparent" size="xl" src={flag} />
 
           <Flex direction="column" className="ml-4">
             <Text className="font-bold! ml-4" component="p">
@@ -37,6 +37,20 @@ export const CardInfo = ({ lastUpdate, totalCases, increment, flag }: CardInfoPr
             <Text component="time" className="text-xs font-mono! ml-4 mt-1">
               {lastUpdate}
             </Text>
+
+            <Divider className="my-1" />
+
+            <Flex gap={4}>
+              <strong>Fuente: </strong>
+              <Anchor
+                c="white"
+                href="https://disease.sh/"
+                target="_blank"
+                className="flex! flex-row! items-center gap-1"
+              >
+                https://disease.sh/ <ExternalLink size={14} />
+              </Anchor>
+            </Flex>
           </Flex>
         </Flex>
 
