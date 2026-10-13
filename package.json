@@ -1,67 +1,52 @@
 {
   "name": "covid-19-sa",
-  "version": "0.0.1",
-  "description": "a Covid-19 SA App",
-  "productName": "covid-19 SA",
-  "author": "breimerct <breimerct@gmail.com>",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "quasar dev",
-    "build": "quasar build",
-    "build:spa": "quasar build -m spa",
-    "deploy:spa": "npm run build:spa && firebase deploy",
-    "lint": "eslint --ext .js,.ts,.vue ./",
-    "lint:fix": "eslint --ext .js,.ts,.vue ./ --fix",
-    "format": "prettier --write \"src/**/*.{js,ts,vue,json}\"",
-    "format:check": "prettier --check \"src/**/*.{js,ts,vue,json}\"",
-    "test": "echo \"No test specified\" && exit 0"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "format": "prettier --write .",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "oxlint",
+      "prettier --write"
+    ],
+    "*.{css,json,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
-    "@capacitor/share": "^7.0.2",
-    "@quasar/extras": "^1.17.0",
-    "apexcharts": "^5.3.5",
-    "axios": "^1.11.0",
-    "core-js": "^3.45.1",
-    "dotenv": "^17.2.2",
-    "firebase": "^12.2.1",
-    "mitt": "^3.0.1",
-    "moment": "^2.30.1",
-    "pinia": "^2.2.2",
-    "quasar": "^2.18.2",
-    "vue": "^3.5.21",
-    "vue-i18n": "^11.1.12",
-    "vue-router": "^4.5.1",
-    "vue3-apexcharts": "^1.8.0"
+    "@mantine/core": "^9.7.1",
+    "@mantine/hooks": "^9.7.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.54.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0",
-    "@types/node": "^22.5.4",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
-    "@typescript-eslint/parser": "^8.43.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9.9.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-vue": "^9.28.0",
-    "globals": "^16.3.0",
-    "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
-    "sass": "^1.70.0",
-    "typescript": "~5.5.4"
-  },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
-  ],
-  "engines": {
-    "node": "^22 || ^20 || ^18 || ^16",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "oxlint": "^1.81.0",
+    "postcss": "^8.5.29",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.9.9",
+    "sass": "^1.105.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
   }
 }

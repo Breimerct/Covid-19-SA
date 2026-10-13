@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: var(--mantine-primary-color-filled);
+  --color-primary-light: var(--mantine-primary-color-light);
+  --color-primary-6: var(--mantine-primary-color-6);
+  --color-secondary: var(--mantine-color-secondary-6);
+  --color-surface: var(--mantine-color-body);
+  --color-content: var(--mantine-color-text);
+  --color-muted: var(--mantine-color-dimmed);
+}

@@ -1,31 +1,4 @@
-# Build directories
-/dist
-/build
-/coverage
-
-# Dependencies
-node_modules/
-
-# Logs
-*.log
-
-# Lockfiles
+dist
+node_modules
+coverage
 package-lock.json
-yarn.lock
-
-# IDE directories
-.vscode/
-.idea/
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Temporary directories
-.tmp/
-.cache/
-
-# Other
-*.min.js
-*.min.css
