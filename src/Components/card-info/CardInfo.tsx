@@ -1,4 +1,13 @@
-import { Anchor, Avatar, Card, Divider, Flex, Text, useMantineColorScheme } from '@mantine/core';
+import {
+  Anchor,
+  Avatar,
+  Card,
+  Divider,
+  Flex,
+  Skeleton,
+  Text,
+  useMantineColorScheme,
+} from '@mantine/core';
 import { Check, ExternalLink, Virus } from 'lucide-react';
 import { cn, formatNumber } from '../../utils';
 
@@ -7,9 +16,10 @@ interface CardInfoProps {
   totalCases: number;
   increment: number;
   flag: string;
+  isLoading: boolean;
 }
 
-export const CardInfo = ({ lastUpdate, totalCases, increment, flag }: CardInfoProps) => {
+export const CardInfo = ({ lastUpdate, totalCases, increment, flag, isLoading }: CardInfoProps) => {
   const { colorScheme } = useMantineColorScheme();
 
   const textColor = { 'text-cyan-600': colorScheme === 'dark' };
@@ -34,9 +44,13 @@ export const CardInfo = ({ lastUpdate, totalCases, increment, flag }: CardInfoPr
               Última actualizaciòn de los datos
             </Text>
 
-            <Text component="time" className="text-xs font-mono! ml-4 mt-1">
-              {lastUpdate}
-            </Text>
+            {!isLoading ? (
+              <Text component="time" className="text-xs font-mono! ml-4 mt-1">
+                {lastUpdate}
+              </Text>
+            ) : (
+              <Skeleton height="15px" my={2} />
+            )}
 
             <Divider className="my-1" />
 
@@ -56,31 +70,41 @@ export const CardInfo = ({ lastUpdate, totalCases, increment, flag }: CardInfoPr
 
         <Divider my="sm" className="my-2" />
 
-        <Text
-          className={cn(
-            'font-bold! text-xl! sm:text-2xl! md:text-3xl! transition-all! flex items-center',
-            textColor
+        <Flex direction={'column'}>
+          <Text
+            className={cn(
+              'font-bold! text-xl! sm:text-2xl! md:text-3xl! transition-all! flex items-center',
+              textColor
+            )}
+            component="p"
+          >
+            <span>Total de casos confirmados</span>
+
+            <Check className="inline-block ml-4" strokeWidth={4} size={30} />
+          </Text>
+
+          {!isLoading ? (
+            <Text
+              className={cn(
+                'font-extrabold! text-xl! md:text-2xl! lg:text-4xl! text-end transition-all! drop-shadow-2xl',
+                textColor
+              )}
+              component="h2"
+            >
+              {formatNumber(totalCases)}
+            </Text>
+          ) : (
+            <Skeleton height="20px" width="50%" my={2} className="self-end" />
           )}
-          component="p"
-        >
-          <span>Total de casos confirmados</span>
 
-          <Check className="inline-block ml-4" strokeWidth={4} size={30} />
-        </Text>
-
-        <Text
-          className={cn(
-            'font-extrabold! text-xl! md:text-2xl! lg:text-4xl! text-end transition-all! drop-shadow-2xl',
-            textColor
+          {!isLoading ? (
+            <Text className={cn('text-xs font-mono! mt-1 text-end', textColor)}>
+              incrementos +{increment}
+            </Text>
+          ) : (
+            <Skeleton height="14px" width="24%" my={2} className="self-end" />
           )}
-          component="h2"
-        >
-          {formatNumber(totalCases)}
-        </Text>
-
-        <Text className={cn('text-xs font-mono! mt-1 text-end', textColor)}>
-          incrementos +{increment}
-        </Text>
+        </Flex>
       </Card.Section>
     </Card>
   );
