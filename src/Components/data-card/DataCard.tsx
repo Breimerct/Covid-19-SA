@@ -1,4 +1,4 @@
-import { Card, Flex, Text, Title, useMantineColorScheme } from '@mantine/core';
+import { Card, Flex, Skeleton, Text, Title, useMantineColorScheme } from '@mantine/core';
 import { Virus, type LucideIcon } from 'lucide-react';
 import { cn, formatNumber } from '../../utils';
 import { CARD_COLORS, type CardColor } from '../../consts';
@@ -9,9 +9,17 @@ interface DataCardProps {
   increment: number;
   color?: CardColor;
   icon?: LucideIcon;
+  isLoading: boolean;
 }
 
-export const DataCard = ({ title, total, increment, color, icon: Icon = Virus }: DataCardProps) => {
+export const DataCard = ({
+  title,
+  total,
+  increment,
+  color,
+  icon: Icon = Virus,
+  isLoading,
+}: DataCardProps) => {
   const { colorScheme } = useMantineColorScheme();
 
   const textColor = color ? CARD_COLORS[color].text : '';
@@ -47,16 +55,24 @@ export const DataCard = ({ title, total, increment, color, icon: Icon = Virus }:
         <Title order={3}>{title}</Title>
 
         <Flex direction="column" justify="end" className="h-full">
-          <Text
-            size="xl"
-            className="font-extrabold! text-2xl! md:text-3xl! lg:text-4xl! text-end transition-all! drop-shadow-2xl"
-          >
-            {formatNumber(total)}
-          </Text>
+          {!isLoading ? (
+            <Text
+              size="xl"
+              className="font-extrabold! text-2xl! md:text-3xl! lg:text-4xl! text-end transition-all! drop-shadow-2xl"
+            >
+              {formatNumber(total)}
+            </Text>
+          ) : (
+            <Skeleton height="20px" width="50%" className="self-end" />
+          )}
 
-          <Text size="sm" className="text-end">
-            +{formatNumber(increment)} hoy
-          </Text>
+          {!isLoading ? (
+            <Text size="sm" className="text-end">
+              +{formatNumber(increment)}
+            </Text>
+          ) : (
+            <Skeleton height="13px" width="30%" mt={8} className="self-end" />
+          )}
         </Flex>
       </Flex>
     </Card>

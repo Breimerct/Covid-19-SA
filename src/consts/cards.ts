@@ -1,4 +1,5 @@
 import { Heart, Skull, TestTubeDiagonal, UserGroup, type LucideIcon } from 'lucide-react';
+import type { CovidData } from '../types';
 
 export const CARD_COLORS = {
   red: {
@@ -22,6 +23,7 @@ export const CARD_COLORS = {
 export type CardColor = keyof typeof CARD_COLORS;
 
 export type CardData = {
+  id: string;
   title: string;
   total: number;
   increment: number;
@@ -31,6 +33,7 @@ export type CardData = {
 
 export const DATA_CARDS: CardData[] = [
   {
+    id: 'tests',
     title: 'Pruebas',
     total: 4000000,
     increment: 0,
@@ -38,6 +41,7 @@ export const DATA_CARDS: CardData[] = [
     textColor: 'yellow',
   },
   {
+    id: 'recovered',
     title: 'Recuperados',
     total: 4000000,
     increment: 0,
@@ -45,6 +49,7 @@ export const DATA_CARDS: CardData[] = [
     textColor: 'green',
   },
   {
+    id: 'actives',
     title: 'Activos',
     total: 4000000,
     increment: 0,
@@ -52,6 +57,7 @@ export const DATA_CARDS: CardData[] = [
     textColor: 'blue',
   },
   {
+    id: 'deaths',
     title: 'Fallecidos',
     total: 4000000,
     increment: 0,
@@ -59,3 +65,26 @@ export const DATA_CARDS: CardData[] = [
     textColor: 'red',
   },
 ];
+
+export const generateCardWithCovidData = (covidData: CovidData | null): CardData[] => {
+  if (!covidData) {
+    return DATA_CARDS.map(card => ({
+      ...card,
+      increment: 0,
+      total: 0,
+    }));
+  }
+
+  const dataMap: Record<string, Pick<CardData, 'total' | 'increment'>> = {
+    tests: { total: covidData.tests, increment: 0 },
+    recovered: { total: covidData.recovered, increment: covidData.todayRecovered },
+    actives: { total: covidData.active, increment: 0 },
+    deaths: { total: covidData.deaths, increment: covidData.todayDeaths },
+  };
+
+  return DATA_CARDS.map(card => {
+    const newData = dataMap[card.id];
+
+    return newData ? { ...card, total: newData.total, increment: newData.increment } : card;
+  });
+};
