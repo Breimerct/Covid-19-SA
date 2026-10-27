@@ -99,6 +99,8 @@ export const COUNTRIES: Record<string, Country> = {
 
 export const COUNTRIES_LIST = Object.keys(COUNTRIES);
 
+export const COUNTRIES_VALUE = Object.values(COUNTRIES);
+
 export const SOUTH_AMERICA = Object.values(COUNTRIES).filter(
   country => country.value === 'south america'
 )[0];

@@ -1,11 +1,11 @@
-export const formatNumber = (value: number, decimals = 0) => {
+export const formatNumber = (value: number) => {
   const n = Number(value);
   if (!Number.isFinite(n)) return '';
 
-  const [int, dec] = Math.abs(n).toFixed(decimals).split('.');
+  const int = Math.abs(n).toFixed(0);
   const withDots = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-  return (n < 0 ? '-' : '') + withDots + (dec ? ',' + dec : '');
+  return (n < 0 ? '-' : '') + withDots;
 };
 
 export const formatLongDateWithTime = (timestamp?: number | string): string => {
