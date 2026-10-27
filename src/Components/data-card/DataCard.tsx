@@ -10,6 +10,7 @@ interface DataCardProps {
   color?: CardColor;
   icon?: LucideIcon;
   isLoading: boolean;
+  errorMessage?: string;
 }
 
 export const DataCard = ({
@@ -19,6 +20,7 @@ export const DataCard = ({
   color,
   icon: Icon = Virus,
   isLoading,
+  errorMessage,
 }: DataCardProps) => {
   const { colorScheme } = useMantineColorScheme();
 
@@ -60,16 +62,18 @@ export const DataCard = ({
               size="xl"
               className="font-extrabold! text-2xl! md:text-3xl! lg:text-4xl! text-end transition-all! drop-shadow-2xl"
             >
-              {formatNumber(total)}
+              {!!errorMessage ? errorMessage : formatNumber(total)}
             </Text>
           ) : (
             <Skeleton height="20px" width="50%" className="self-end" />
           )}
 
           {!isLoading ? (
-            <Text size="sm" className="text-end">
-              +{formatNumber(increment)}
-            </Text>
+            !errorMessage && (
+              <Text size="sm" className="text-end">
+                +{formatNumber(increment)}
+              </Text>
+            )
           ) : (
             <Skeleton height="13px" width="30%" mt={8} className="self-end" />
           )}

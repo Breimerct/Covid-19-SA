@@ -17,5 +17,12 @@ export type CovidData = {
   todayCases: number;
   todayDeaths: number;
   todayRecovered: number;
+  vaccine: number;
+  vaccineError?: string;
   updated: number;
+};
+
+export type VaccineResponse = {
+  country: string;
+  timeline: Record<string, number>;
 };
