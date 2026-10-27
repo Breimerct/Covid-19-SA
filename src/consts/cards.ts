@@ -18,6 +18,10 @@ export const CARD_COLORS = {
     text: 'text-yellow-400',
     bg: 'bg-yellow-400! text-white!',
   },
+  purple: {
+    text: 'text-purple-500',
+    bg: 'bg-purple-600! text-white!',
+  },
 };
 
 export type CardColor = keyof typeof CARD_COLORS;

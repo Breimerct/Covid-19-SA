@@ -16,7 +16,7 @@ interface CardInfoProps {
   totalCases: number;
   increment: number;
   flag: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export const CardInfo = ({ lastUpdate, totalCases, increment, flag, isLoading }: CardInfoProps) => {

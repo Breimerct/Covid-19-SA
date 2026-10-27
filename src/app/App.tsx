@@ -1,11 +1,12 @@
 import { Grid } from '@mantine/core';
 import { CardInfo } from '../Components/card-info';
 import { DataCard } from '../Components/data-card';
-import { generateCardWithCovidData } from '../consts';
+import { generateCardWithCovidData, SOUTH_AMERICA } from '../consts';
 import { CountryAutocomplete } from '../Components/country-autocomplete';
 import { useCovidStore } from '../stores';
 import { useEffect } from 'react';
 import { formatLongDateWithTime } from '../utils';
+import { Syringe } from 'lucide-react';
 
 function App() {
   const { country, covidData, isLoading, fetchCovidData } = useCovidStore();
@@ -45,6 +46,20 @@ function App() {
             />
           </Grid.Col>
         ))}
+
+        {country.value !== SOUTH_AMERICA.value && (
+          <Grid.Col span={12}>
+            <DataCard
+              title="Vacunas"
+              total={covidData?.vaccine || 0}
+              increment={0}
+              color="purple"
+              icon={Syringe}
+              errorMessage={covidData?.vaccineError}
+              isLoading={isLoading}
+            />
+          </Grid.Col>
+        )}
       </Grid>
     </main>
   );
