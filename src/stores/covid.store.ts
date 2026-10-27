@@ -1,22 +1,33 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SOUTH_AMERICA, type Country } from '../consts';
-import { fetchContinentData, fetchCountryData, fetchVaccineData } from '../services';
-import type { CovidData } from '../types';
+import { COUNTRIES_VALUE, SOUTH_AMERICA, type Country } from '../consts';
+import {
+  fetchContinentData,
+  fetchCountryData,
+  fetchTestChartData,
+  fetchVaccineData,
+} from '../services';
+import type { CovidData, TestChartItem } from '../types';
 
 type CovidState = {
   country: Country;
   covidData: CovidData | null;
   isLoading: boolean;
   vacctineError: string | null;
+  testChartData: TestChartItem[];
+  isLoadingTestChart: boolean;
 };
 
 type CovidActions = {
   setCountry: (country: Country) => void;
+  setCovidData: (data: CovidData) => void;
   setIsLoading: (loading: boolean) => void;
+  setTestChartData: (data: TestChartItem[]) => void;
+  setIsLoadingTestChart: (loading: boolean) => void;
 
   resetStore: () => void;
   fetchCovidData: () => Promise<void>;
+  fetchTestChartData: () => Promise<void>;
 };
 
 const initialValues: CovidState = {
@@ -24,6 +35,8 @@ const initialValues: CovidState = {
   covidData: null,
   isLoading: false,
   vacctineError: null,
+  testChartData: [],
+  isLoadingTestChart: false,
 };
 
 export const useCovidStore = create<CovidState & CovidActions>()(
@@ -32,7 +45,10 @@ export const useCovidStore = create<CovidState & CovidActions>()(
       ...initialValues,
 
       setCountry: (country: Country) => set({ country: country }),
+      setCovidData: data => set({ covidData: data }),
       setIsLoading: loading => set({ isLoading: loading }),
+      setTestChartData: data => set({ testChartData: data }),
+      setIsLoadingTestChart: loading => set({ isLoadingTestChart: loading }),
 
       resetStore: () => set({ ...initialValues }),
 
@@ -52,20 +68,47 @@ export const useCovidStore = create<CovidState & CovidActions>()(
           const response = await fetchCountryData(_this.country.value);
           const vaccineResponse = await fetchVaccineData(_this.country.value);
 
-          const vaccine =
-            vaccineResponse.status === 404 ? 0 : Object.values(vaccineResponse.data.timeline)[0];
-          const vaccineError = vaccineResponse.status === 404 ? 'No Data' : undefined;
+          const vaccineError =
+            vaccineResponse.status === 404
+              ? 'No Data'
+              : (vaccineResponse.errorMessage ?? undefined);
+          const vaccine = vaccineError ? 0 : (Object.values(vaccineResponse.data.timeline)[0] ?? 0);
 
-          vaccineResponse.errorMessage && console.error(vaccineResponse.errorMessage);
-          set({
-            covidData: {
-              ...response.data,
-              vaccine,
-              vaccineError,
-            },
+          _this.setCovidData({
+            ...response.data,
+            vaccine,
+            vaccineError,
           });
         } finally {
           _this.setIsLoading(false);
+        }
+      },
+
+      fetchTestChartData: async () => {
+        const _this = get();
+
+        try {
+          _this.setIsLoadingTestChart(true);
+
+          const countriesExceptSouthAmerica = COUNTRIES_VALUE.filter(
+            ({ value }) => value !== SOUTH_AMERICA.value
+          );
+          const countryValues = countriesExceptSouthAmerica.map(({ value }) => value);
+          const uniqueCountryValues = new Set(countryValues);
+          const countries = [...uniqueCountryValues];
+
+          const response = await fetchTestChartData(countries);
+          const testChartDataFormatted = response.data
+            .map<TestChartItem>(({ country, tests, countryInfo: { iso3 } }) => ({
+              country: country || '',
+              value: tests,
+              iso3,
+            }))
+            .sort((a, b) => b.value - a.value);
+
+          _this.setTestChartData(testChartDataFormatted);
+        } finally {
+          _this.setIsLoadingTestChart(false);
         }
       },
     }),

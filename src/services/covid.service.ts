@@ -12,3 +12,9 @@ export const fetchCountryData = async (country: string) => {
 export const fetchVaccineData = async (country: string) => {
   return await httpClient.get<VaccineResponse>(`vaccine/coverage/countries/${country}?lastdays=1`);
 };
+
+export const fetchTestChartData = async (countries: string[]) => {
+  const countriesString = countries.join(',');
+
+  return await httpClient.get<CovidData[]>(`countries/${countriesString}?lastdays=30`);
+};

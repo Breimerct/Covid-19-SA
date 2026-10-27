@@ -7,13 +7,23 @@ import { useCovidStore } from '../stores';
 import { useEffect } from 'react';
 import { formatLongDateWithTime } from '../utils';
 import { Syringe } from 'lucide-react';
+import { TestChart } from '../Components/test-chart';
 
 function App() {
-  const { country, covidData, isLoading, fetchCovidData } = useCovidStore();
+  const {
+    country,
+    covidData,
+    testChartData,
+    isLoading,
+    isLoadingTestChart,
+    fetchCovidData,
+    fetchTestChartData,
+  } = useCovidStore();
 
   useEffect(() => {
     fetchCovidData();
-  }, [country]);
+    fetchTestChartData();
+  }, [country, fetchCovidData, fetchTestChartData]);
 
   const cards = generateCardWithCovidData(covidData);
 
@@ -58,6 +68,12 @@ function App() {
               errorMessage={covidData?.vaccineError}
               isLoading={isLoading}
             />
+          </Grid.Col>
+        )}
+
+        {country.value === SOUTH_AMERICA.value && (
+          <Grid.Col span={12}>
+            <TestChart data={testChartData} isloading={isLoading || isLoadingTestChart} />
           </Grid.Col>
         )}
       </Grid>

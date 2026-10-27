@@ -5,6 +5,7 @@ export type CovidData = {
   casesPerOneMillion: number;
   continent: string;
   country: string | null;
+  countryInfo: CountryInfo;
   critical: number;
   criticalPerOneMillion: number;
   deaths: number;
@@ -25,4 +26,19 @@ export type CovidData = {
 export type VaccineResponse = {
   country: string;
   timeline: Record<string, number>;
+};
+
+export type CountryInfo = {
+  _id: number;
+  iso2: string;
+  iso3: string;
+  lat: number;
+  long: number;
+  flag: string;
+};
+
+export type TestChartItem = {
+  country: string;
+  iso3: string;
+  value: number;
 };
