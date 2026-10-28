@@ -4,9 +4,10 @@ import App from './app/App.tsx';
 import '@mantine/core/styles.css';
 
 import { MantineProvider } from '@mantine/core';
+import { useThemeStore } from './stores';
 
 createRoot(document.getElementById('root')!).render(
-  <MantineProvider defaultColorScheme="light">
+  <MantineProvider defaultColorScheme={useThemeStore.getState().colorScheme}>
     <App />
   </MantineProvider>
 );
